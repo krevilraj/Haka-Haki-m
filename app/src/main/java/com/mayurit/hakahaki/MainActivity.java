@@ -1,5 +1,8 @@
 package com.mayurit.hakahaki;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -72,22 +75,46 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_nefec) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_project) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_video) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_music) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_notice) {
 
+        } else if (id == R.id.nav_employee) {
+
+        } else if (id == R.id.nav_category) {
+
+        } else if (id == R.id.nav_rate_us) {
+                    RateUs();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void RateUs() {
+     //   Uri uri = Uri.parse("market://details?id=" + MainActivity.this.getPackageName());
+        Uri uri = Uri.parse("market://details?id=com.mayurit.nepaliloksewapreparation" );
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        // To count with Play market backstack, After pressing back button,
+        // to taken back to our application, we need to add following flags to intent.
+        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        try {
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id=com.mayurit.nepaliloksewapreparation" +
+                            MainActivity.this.getPackageName())));
+        }
     }
 }
