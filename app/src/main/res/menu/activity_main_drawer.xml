@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-
->
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
         <item
@@ -34,18 +32,16 @@
             android:icon="@drawable/ic_menu_manage"
             android:title="Employee" />
     </group>
+    <group android:id="@+id/my_move" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_category"
+            android:icon="@drawable/ic_menu_share"
+            android:title="Category" />
+        <item
+            android:id="@+id/nav_rate_us"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Rate Us" />
+    </group>
 
-    <item tools:ignore="MenuTitle">
-        <menu>
-            <item
-                android:id="@+id/nav_category"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Category" />
-            <item
-                android:id="@+id/nav_rate_us"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Rate Us" />
-        </menu>
-    </item>
 
 </menu>

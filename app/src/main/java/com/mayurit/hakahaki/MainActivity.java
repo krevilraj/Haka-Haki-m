@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_notice) {
 
         } else if (id == R.id.nav_employee) {
-
+            RateUs();
         } else if (id == R.id.nav_category) {
 
         } else if (id == R.id.nav_rate_us) {
