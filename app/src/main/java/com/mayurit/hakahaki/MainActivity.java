@@ -3,6 +3,7 @@ package com.mayurit.hakahaki;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,9 +13,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.mayurit.hakahaki.Fragments.FragmentCategory;
+import com.mayurit.hakahaki.Fragments.FragmentHome;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    Fragment fragment;
+    String toolbartitle="Home";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +40,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        fragment = FragmentHome.newInstance(toolbartitle);
+        navigateFromDrawer(fragment,toolbartitle);
     }
 
     @Override
@@ -70,12 +80,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+
+
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            toolbartitle="Home";
+            fragment = FragmentHome.newInstance(toolbartitle);
         } else if (id == R.id.nav_gallery) {
-
+            toolbartitle="Category";
+            fragment = FragmentCategory.newInstance(toolbartitle);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -84,10 +98,24 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        }
+        }else{
+            fragment = FragmentHome.newInstance("Home");
 
+        }
+        navigateFromDrawer(fragment,toolbartitle);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void navigateFromDrawer(Fragment fragment,String title) {
+        Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
+        // depending on whether the device is a phone or tablet
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment, title).addToBackStack(title)
+                .commit();
+
+
+    }
+
 }
