@@ -46,5 +46,11 @@ public class FragmentCategory extends Fragment {
         return inflater.inflate(R.layout.fragment_category_list, container, false);
     }
 
+    @Override
+    public void onResume() {
+        getActivity().setTitle(toolbarTitle);
+        super.onResume();
+    }
+
 
 }

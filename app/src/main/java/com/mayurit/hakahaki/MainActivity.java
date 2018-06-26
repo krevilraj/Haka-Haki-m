@@ -4,8 +4,10 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -25,15 +27,13 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Fragment fragment;
-    String toolbartitle="Home";
-
+    String toolbartitle = "Home";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -44,17 +44,36 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         fragment = FragmentHome.newInstance(toolbartitle);
-        navigateFromDrawer(fragment,toolbartitle);
+        navigateFromDrawer(fragment, toolbartitle);
     }
-
+    boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+
+                if (doubleBackToExitPressedOnce) {
+                    ActivityCompat.finishAffinity(MainActivity.this);
+                    return;
+                }
+
+                this.doubleBackToExitPressedOnce = true;
+                Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        doubleBackToExitPressedOnce = false;
+                    }
+                }, 2000);
+
+
         }
+
+
     }
 
     @Override
@@ -89,39 +108,46 @@ public class MainActivity extends AppCompatActivity
 
 
         if (id == R.id.nav_home) {
-            toolbartitle="Home";
+            toolbartitle = "Home";
             fragment = FragmentHome.newInstance(toolbartitle);
-        } else if (id == R.id.nav_nefec) {
-
+        } else if (id == R.id.nav_nefej) {
+            toolbartitle = (String) getText(R.string.nefej);
+            ;
+            fragment = FragmentCategory.newInstance(toolbartitle);
         } else if (id == R.id.nav_project) {
-
+            toolbartitle = (String) getText(R.string.project);
+            fragment = FragmentCategory.newInstance(toolbartitle);
         } else if (id == R.id.nav_video) {
-
+            toolbartitle = (String) getText(R.string.video);
+            fragment = FragmentCategory.newInstance(toolbartitle);
         } else if (id == R.id.nav_music) {
-
+            toolbartitle = (String) getResources().getText(R.string.music);
+            fragment = FragmentCategory.newInstance(toolbartitle);
         } else if (id == R.id.nav_notice) {
-
+            toolbartitle = (String) getText(R.string.notice);
+            fragment = FragmentCategory.newInstance(toolbartitle);
+        } else if (id == R.id.nav_members) {
+            toolbartitle = (String) getText(R.string.members);
+            fragment = FragmentCategory.newInstance(toolbartitle);
         } else if (id == R.id.nav_category) {
-            toolbartitle="Category";
+            toolbartitle = (String) getText(R.string.category);
             fragment = FragmentCategory.newInstance(toolbartitle);
         } else if (id == R.id.nav_rate_us) {
-                    RateUs();
-        }else if (id == R.id.nav_employee) {
-        
+            RateUs();
         }
 
-        navigateFromDrawer(fragment,toolbartitle);
+        navigateFromDrawer(fragment, toolbartitle);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
 
-    private void navigateFromDrawer(Fragment fragment,String title) {
+    private void navigateFromDrawer(Fragment fragment, String title) {
         Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
         // depending on whether the device is a phone or tablet
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment, title).addToBackStack(title)
+                .replace(R.id.fragment_container, fragment, title)
                 .commit();
 
 
@@ -129,8 +155,8 @@ public class MainActivity extends AppCompatActivity
 
 
     public void RateUs() {
-     //   Uri uri = Uri.parse("market://details?id=" + MainActivity.this.getPackageName());
-        Uri uri = Uri.parse("market://details?id=com.mayurit.nepaliloksewapreparation" );
+        //   Uri uri = Uri.parse("market://details?id=" + MainActivity.this.getPackageName());
+        Uri uri = Uri.parse("market://details?id=com.mayurit.nepaliloksewapreparation");
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
         // To count with Play market backstack, After pressing back button,
         // to taken back to our application, we need to add following flags to intent.
