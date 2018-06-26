@@ -1,7 +1,6 @@
 package com.mayurit.hakahaki.Fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,19 +10,19 @@ import android.view.ViewGroup;
 import com.mayurit.hakahaki.R;
 
 
-public class FragmentHome extends Fragment {
+public class FragmentProject extends Fragment {
     private static final String ARG_PARAM1 = "toolbar_title";
 
     private String toolbarTitle;
     private String mParam2;
     Context context;
 
-    public FragmentHome() {
+    public FragmentProject() {
         // Required empty public constructor
     }
 
-    public static FragmentHome newInstance(String title) {
-        FragmentHome fragment = new FragmentHome();
+    public static FragmentProject newInstance(String title) {
+        FragmentProject fragment = new FragmentProject();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, title);
         fragment.setArguments(args);
@@ -44,7 +43,7 @@ public class FragmentHome extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return inflater.inflate(R.layout.fragment_project, container, false);
     }
 
     @Override
