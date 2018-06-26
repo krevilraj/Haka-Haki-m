@@ -29,5 +29,7 @@
 
     <dimen name="no_item_img_size">90dp</dimen>
     <dimen name="btn_fab_size">56dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="title_text">16sp</dimen>
 
 </resources>
