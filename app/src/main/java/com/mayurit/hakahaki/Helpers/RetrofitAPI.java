@@ -49,7 +49,7 @@ public class RetrofitAPI {
         @GET("./news-api/category/?category={category_id}&offset={offset}&limit={limit}")
         Call<List<CategoryModel>> getCategoryLimitNews(@Path("category_id") String category, @Path("offset") int offset, @Path("limit") String limit);
 
-       
+
 
     }
 }
