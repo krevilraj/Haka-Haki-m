@@ -1,6 +1,7 @@
 package com.mayurit.hakahaki.Helpers;
 
 import com.mayurit.hakahaki.Model.CategoryModel;
+import com.mayurit.hakahaki.Model.NewsListModel;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Krevilraj on 4/8/2018.
@@ -46,8 +48,8 @@ public class RetrofitAPI {
         Call<List<CategoryModel>> getCategoryList();
 
         @Headers("Cache-Control:no-cache")
-        @GET("./news-api/category/?category={category_id}&offset={offset}&limit={limit}")
-        Call<List<CategoryModel>> getCategoryLimitNews(@Path("category_id") String category, @Path("offset") int offset, @Path("limit") String limit);
+        @GET("./news-api/category/")
+        Call<List<NewsListModel>> getCategoryLimitNews(@Query("category") int category, @Query("offset") int offset, @Query("limit") int limit);
 
 
 
