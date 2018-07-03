@@ -112,7 +112,6 @@ public class MainActivity extends AppCompatActivity
             fragment = FragmentHome.newInstance(toolbartitle);
         } else if (id == R.id.nav_nefej) {
             toolbartitle = (String) getText(R.string.nefej);
-            ;
             fragment = FragmentCategory.newInstance(toolbartitle);
         } else if (id == R.id.nav_project) {
             toolbartitle = (String) getText(R.string.project);
