@@ -156,13 +156,7 @@ public class FragmentHome extends Fragment {
 
 
 
-        crd_video = view.findViewById(R.id.crd_video);
-        crd_video.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
  mobile_data();
         fetchNews();
         fetchbisheshsamachar_News();
