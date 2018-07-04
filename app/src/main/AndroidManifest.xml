@@ -18,6 +18,7 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".Notice"></activity>
+
         <activity android:name=".Splashscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,9 +26,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Notice" />
+		
         <activity android:name=".CategoryDetail"></activity>
         <activity android:name=".ActivityPostDetail"></activity>
+
     </application>
 
 </manifest>

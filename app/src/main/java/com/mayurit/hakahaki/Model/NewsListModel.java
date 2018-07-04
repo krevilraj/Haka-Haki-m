@@ -7,6 +7,7 @@ public class NewsListModel {
     @SerializedName("ID")
     @Expose
     private String iD;
+
     @SerializedName("post_title")
     @Expose
     private String postTitle;
