@@ -2,6 +2,7 @@ package com.mayurit.hakahaki.Fragments;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -9,6 +10,9 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +24,17 @@ import android.widget.TextView;
 
 
 import com.bumptech.glide.Glide;
+import com.mayurit.hakahaki.Adapters.CategoryAdapter;
+import com.mayurit.hakahaki.CategoryDetail;
 import com.mayurit.hakahaki.Helpers.Constant;
 import com.mayurit.hakahaki.Helpers.DatabaseHelper;
+import com.mayurit.hakahaki.Helpers.RecyclerItemClickListener;
 import com.mayurit.hakahaki.Helpers.RetrofitAPI;
+import com.mayurit.hakahaki.Model.CategoryModel;
 import com.mayurit.hakahaki.Model.NewsListModel;
 import com.mayurit.hakahaki.R;
+import com.mayurit.hakahaki.VideoActivity;
+import com.mayurit.hakahaki.VideoDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,11 +53,13 @@ public class FragmentHome extends Fragment {
     private String toolbarTitle;
     private String mParam2;
     Context context;
-    int category_id;
+    int category_id,category_id2,category_id28,category_id33;
+    LinearLayout lnr_video;
     CardView nefej;
     TextView mainNews1_title,mainNews2_title,mainNews3_title,mainNews4_title,
             mainNews1_content,mainNews2_content,mainNews3_content,mainNews4_content;
     ImageView mainNews1_image,mainNews2_image,mainNews3_image,mainNews4_image;
+
 
 
     CardView crd_video;
@@ -67,6 +79,11 @@ public class FragmentHome extends Fragment {
     DatabaseHelper databaseHelper;
     RelativeLayout rel_container;
     View view ;
+
+    //changes now
+    private RecyclerView recyclerView;
+    CategoryAdapter mAdapter;
+
     public FragmentHome() {
         // Required empty public constructor
     }
@@ -95,6 +112,9 @@ public class FragmentHome extends Fragment {
                              Bundle savedInstanceState) {
 
         category_id =34;
+        //catagory id for video
+        category_id33 = 33;
+
        view = inflater.inflate(R.layout.fragment_home,null);
 
         // Inflate the layout for this fragment
@@ -155,6 +175,19 @@ public class FragmentHome extends Fragment {
         //end of bishesh report workflow callling done
 
 
+        //video ma click garda video catagory ko video section
+    lnr_video=view.findViewById(R.id.lnr_video);
+    lnr_video.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(context, VideoDetail.class);
+            intent.putExtra("category_id",category_id33);
+            startActivity(intent);
+        }
+
+
+    });
+    //end this section
 
 
  mobile_data();
@@ -221,6 +254,111 @@ public class FragmentHome extends Fragment {
             }
         });
     }
+    public void  fetchbisheshsamachar_News(){
+        category_id2=2;
+        final Call<List<NewsListModel>> newsList = RetrofitAPI.getService().getCategoryLimitNews(2,0, 3);
+        newsList.enqueue(new Callback<List<NewsListModel>>() {
+            @Override
+            public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
+                list1.addAll(response.body());
+
+                Log.i("list","data = " +list1.get(0).getPostTitle());
+
+                for(NewsListModel info:list1){
+                    ContentValues cv = new ContentValues();
+                    cv.put("post_title", info.getPostTitle());
+                    cv.put("category_id", category_id2);
+                    cv.put("post_date", info.getPostDate());
+                    cv.put("post_description", info.getPostExcerpt());
+                    databaseHelper.insertMainNews(cv);
+                }
+
+
+                //entertainment get feed from server
+                ent_title1.setText(list1.get(0).getPostTitle());
+                ent_title2.setText(list1.get(1).getPostTitle());
+                ent_title2.setText(list1.get(2).getPostTitle());
+
+                ent_date1.setText(list1.get(0).getPostDate());
+                ent_date2.setText(list1.get(1).getPostDate());
+                ent_date3.setText(list1.get(2).getPostDate());
+
+                Glide.with(context).load(list1.get(0).getImageId()).into(ent_img1);
+                Glide.with(context).load(list1.get(1).getImageId()).into(ent_img2);
+                Glide.with(context).load(list1.get(2).getImageId()).into(ent_img3);
+
+                 readmore.setOnClickListener(new View.OnClickListener() {
+                     @Override
+                     public void onClick(View view) {
+                         Intent intent = new Intent(context, CategoryDetail.class);
+                         intent.putExtra("category_id",category_id2);
+                         startActivity(intent);
+                     }
+                 });
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<NewsListModel>> call, Throwable throwable) {
+                //     Toast.makeText(FragmentHome.this, "Failed to load", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //call the values from server and set
+    public void  fetchbisheshreport_News(){
+        category_id28=28;
+        Call<List<NewsListModel>> newsList = RetrofitAPI.getService().getCategoryLimitNews(28,0, 3);
+        newsList.enqueue(new Callback<List<NewsListModel>>() {
+            @Override
+            public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
+                list2.addAll(response.body());
+
+
+                for(NewsListModel info:list2){
+                    ContentValues cv = new ContentValues();
+                    cv.put("post_title", info.getPostTitle());
+                    cv.put("category_id", category_id28);
+                    cv.put("post_date", info.getPostDate());
+                    cv.put("post_description", info.getPostExcerpt());
+                    databaseHelper.insertMainNews(cv);
+                }
+                Log.i("list","data = " +list2.get(0).getPostTitle());
+
+
+                //set the values from the server to filed in bishesh report
+                report_title1.setText(list2.get(0).getPostTitle());
+                report_title2.setText(list2.get(1).getPostTitle());
+                report_title3.setText(list2.get(2).getPostTitle());
+
+                report_date1.setText(list2.get(0).getPostDate());
+                report_date2.setText(list2.get(1).getPostDate());
+                report_date3.setText(list2.get(2).getPostDate());
+
+                Glide.with(context).load(list2.get(0).getImageId()).into(report_img1);
+                Glide.with(context).load(list2.get(1).getImageId()).into(report_img2);
+                Glide.with(context).load(list2.get(2).getImageId()).into(report_img3);
+
+                report_readmore.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, CategoryDetail.class);
+                        intent.putExtra("category_id",category_id28);
+                        startActivity(intent);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(Call<List<NewsListModel>> call, Throwable throwable) {
+                //     Toast.makeText(FragmentHome.this, "Failed to load", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
     public void mobile_data(){
        Log.i("msz", "v="+databaseHelper.countRowTable("tbl_news"));
             if((databaseHelper.countRowTable("tbl_news") == 0)){
@@ -232,12 +370,19 @@ public class FragmentHome extends Fragment {
                 Log.i("msz","size = "+list.size());
                 display(listModel);
 
-
-        /*        List<NewsListModel> listModel1 = databaseHelper.getQAList("28");
-               // list.addAll(databaseHelper.getQAList("34"));
+                List<NewsListModel> list1 = databaseHelper.getQAList("2");
+                // list.addAll(databaseHelper.getQAList("34"));
                 Log.i("msz","size = "+list.size());
-                display(listModel1);
-                */
+                displaybish(list1);
+
+                List<NewsListModel> list2 = databaseHelper.getQAList("28");
+                // list.addAll(databaseHelper.getQAList("34"));
+                Log.i("msz","size = "+list.size());
+                displayreport(list2);
+
+
+
+
                 lnrlayoutNews.setVisibility(View.VISIBLE);
             }
 
@@ -285,71 +430,40 @@ public class FragmentHome extends Fragment {
         Glide.with(context).load(list.get(2).getImageId()).into(mainNews3_image);
         Glide.with(context).load(list.get(3).getImageId()).into(mainNews4_image);
     }
-    public void  fetchbisheshsamachar_News(){
-        category_id=2;
-        Call<List<NewsListModel>> newsList = RetrofitAPI.getService().getCategoryLimitNews(2,0, 3);
-        newsList.enqueue(new Callback<List<NewsListModel>>() {
-            @Override
-            public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
-                list1.addAll(response.body());
 
-            Log.i("list","data = " +list1.get(0).getPostTitle());
+    //ofline catch for samachar
+    private void displaybish(List<NewsListModel> list1) {
 
+        ent_title1.setText(list1.get(0).getPostTitle());
+        ent_title2.setText(list1.get(1).getPostTitle());
+        ent_title2.setText(list1.get(2).getPostTitle());
 
-                //entertainment get feed from server
-                ent_title1.setText(list1.get(0).getPostTitle());
-                ent_title2.setText(list1.get(1).getPostTitle());
-                ent_title2.setText(list1.get(2).getPostTitle());
+        ent_date1.setText(list1.get(0).getPostDate());
+        ent_date2.setText(list1.get(1).getPostDate());
+        ent_date3.setText(list1.get(2).getPostDate());
 
-                ent_date1.setText(list1.get(0).getPostDate());
-                ent_date2.setText(list1.get(1).getPostDate());
-                ent_date3.setText(list1.get(2).getPostDate());
-
-                Glide.with(context).load(list1.get(0).getImageId()).into(ent_img1);
-                Glide.with(context).load(list1.get(1).getImageId()).into(ent_img2);
-                Glide.with(context).load(list1.get(2).getImageId()).into(ent_img3);
-
-            }
-
-            @Override
-            public void onFailure(Call<List<NewsListModel>> call, Throwable throwable) {
-                //     Toast.makeText(FragmentHome.this, "Failed to load", Toast.LENGTH_SHORT).show();
-            }
-        });
+        Glide.with(context).load(list1.get(0).getImageId()).into(ent_img1);
+        Glide.with(context).load(list1.get(1).getImageId()).into(ent_img2);
+        Glide.with(context).load(list1.get(2).getImageId()).into(ent_img3);
     }
 
-    //call the values from server and set
-    public void  fetchbisheshreport_News(){
-        category_id=28;
-        Call<List<NewsListModel>> newsList = RetrofitAPI.getService().getCategoryLimitNews(28,0, 3);
-        newsList.enqueue(new Callback<List<NewsListModel>>() {
-            @Override
-            public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
-                list2.addAll(response.body());
+    //ofline ko lagi list ma database ma pathako
+    private void displayreport(List<NewsListModel> list2) {
 
-                Log.i("list","data = " +list2.get(0).getPostTitle());
+        report_title1.setText(list2.get(0).getPostTitle());
+        report_title2.setText(list2.get(1).getPostTitle());
+        report_title3.setText(list2.get(2).getPostTitle());
 
+        report_date1.setText(list2.get(0).getPostDate());
+        report_date2.setText(list2.get(1).getPostDate());
+        report_date3.setText(list2.get(2).getPostDate());
 
-                //set the values from the server to filed in bishesh report
-                report_title1.setText(list2.get(0).getPostTitle());
-                report_title2.setText(list2.get(1).getPostTitle());
-                report_title3.setText(list2.get(2).getPostTitle());
-
-                report_date1.setText(list2.get(0).getPostDate());
-                report_date2.setText(list2.get(1).getPostDate());
-                report_date3.setText(list2.get(2).getPostDate());
-
-                Glide.with(context).load(list2.get(0).getImageId()).into(report_img1);
-                Glide.with(context).load(list2.get(1).getImageId()).into(report_img2);
-                Glide.with(context).load(list2.get(2).getImageId()).into(report_img3);
-
-            }
-
-            @Override
-            public void onFailure(Call<List<NewsListModel>> call, Throwable throwable) {
-                //     Toast.makeText(FragmentHome.this, "Failed to load", Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        Glide.with(context).load(list2.get(0).getImageId()).into(report_img1);
+        Glide.with(context).load(list2.get(1).getImageId()).into(report_img2);
+        Glide.with(context).load(list2.get(2).getImageId()).into(report_img3);
     }
+
+
+
+
 }
