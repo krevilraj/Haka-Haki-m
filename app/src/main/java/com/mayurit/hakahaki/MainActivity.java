@@ -22,6 +22,12 @@ import android.widget.Toast;
 
 import com.mayurit.hakahaki.Fragments.FragmentCategory;
 import com.mayurit.hakahaki.Fragments.FragmentHome;
+import com.mayurit.hakahaki.Fragments.FragmentMembers;
+import com.mayurit.hakahaki.Fragments.FragmentMusic;
+import com.mayurit.hakahaki.Fragments.FragmentNEFEJ;
+import com.mayurit.hakahaki.Fragments.FragmentNotice;
+import com.mayurit.hakahaki.Fragments.FragmentProject;
+import com.mayurit.hakahaki.Fragments.FragmentVideo;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -112,22 +118,22 @@ public class MainActivity extends AppCompatActivity
             fragment = FragmentHome.newInstance(toolbartitle);
         } else if (id == R.id.nav_nefej) {
             toolbartitle = (String) getText(R.string.nefej);
-            fragment = FragmentCategory.newInstance(toolbartitle);
+            fragment = FragmentNEFEJ.newInstance(toolbartitle);
         } else if (id == R.id.nav_project) {
             toolbartitle = (String) getText(R.string.project);
-            fragment = FragmentCategory.newInstance(toolbartitle);
+            fragment = FragmentProject.newInstance(toolbartitle);
         } else if (id == R.id.nav_video) {
             toolbartitle = (String) getText(R.string.video);
-            fragment = FragmentCategory.newInstance(toolbartitle);
+            fragment = FragmentVideo.newInstance(toolbartitle);
         } else if (id == R.id.nav_music) {
             toolbartitle = (String) getResources().getText(R.string.music);
-            fragment = FragmentCategory.newInstance(toolbartitle);
+            fragment = FragmentMusic.newInstance(toolbartitle);
         } else if (id == R.id.nav_notice) {
             toolbartitle = (String) getText(R.string.notice);
-            fragment = FragmentCategory.newInstance(toolbartitle);
+            fragment = FragmentNotice.newInstance(toolbartitle);
         } else if (id == R.id.nav_members) {
             toolbartitle = (String) getText(R.string.members);
-            fragment = FragmentCategory.newInstance(toolbartitle);
+            fragment = FragmentMembers.newInstance(toolbartitle);
         } else if (id == R.id.nav_category) {
             toolbartitle = (String) getText(R.string.category);
             fragment = FragmentCategory.newInstance(toolbartitle);
