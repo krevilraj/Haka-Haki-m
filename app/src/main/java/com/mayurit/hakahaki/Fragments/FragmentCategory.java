@@ -83,7 +83,8 @@ public class FragmentCategory extends Fragment {
         swipe_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mAdapter.resetListData();
+                list.clear();
+                mAdapter.notifyDataSetChanged();
                 requestAction();
             }
         });
@@ -129,15 +130,12 @@ public class FragmentCategory extends Fragment {
         noticeList.enqueue(new Callback<List<CategoryModel>>() {
             @Override
             public void onResponse(Call<List<CategoryModel>> call, Response<List<CategoryModel>> response) {
-               /* list.addAll(response.body());
-                mAdapter.notifyDataSetChanged();
-                view.findViewById(R.id.rel_container).setVisibility(View.VISIBLE);*/
-                Log.i("fragmentCategory","fetchdata 2");
 
                 swipeProgress(false);
                 List<CategoryModel> resp = response.body();
                 if (resp != null) {
                     displayApiResult(response.body());
+                    Log.i("checkx","ayo");
                    /* list.addAll(response.body());
                     mAdapter.notifyDataSetChanged();*/
                 } else {
@@ -155,8 +153,11 @@ public class FragmentCategory extends Fragment {
     }
 
     private void displayApiResult(final List<CategoryModel> categories) {
-//        mAdapter.setListData(categories);
+        mAdapter.setListData(categories);
         list.addAll(categories);
+        for(CategoryModel data: list){
+            Log.i("checkx","data="+data.getName());
+        }
         mAdapter.notifyDataSetChanged();
         swipeProgress(false);
         if (categories.size() == 0) {
