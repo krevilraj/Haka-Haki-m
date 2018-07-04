@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,14 +24,17 @@ import android.widget.TextView;
 
 
 import com.bumptech.glide.Glide;
+import com.mayurit.hakahaki.Adapters.CategoryAdapter;
 import com.mayurit.hakahaki.CategoryDetail;
 import com.mayurit.hakahaki.Helpers.Constant;
 import com.mayurit.hakahaki.Helpers.DatabaseHelper;
+import com.mayurit.hakahaki.Helpers.RecyclerItemClickListener;
 import com.mayurit.hakahaki.Helpers.RetrofitAPI;
 import com.mayurit.hakahaki.Model.CategoryModel;
 import com.mayurit.hakahaki.Model.NewsListModel;
 import com.mayurit.hakahaki.R;
 import com.mayurit.hakahaki.VideoActivity;
+import com.mayurit.hakahaki.VideoDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +53,7 @@ public class FragmentHome extends Fragment {
     private String toolbarTitle;
     private String mParam2;
     Context context;
-    int category_id,category_id2,category_id28;
+    int category_id,category_id2,category_id28,category_id33;
     LinearLayout lnr_video;
     CardView nefej;
     TextView mainNews1_title,mainNews2_title,mainNews3_title,mainNews4_title,
@@ -73,6 +79,11 @@ public class FragmentHome extends Fragment {
     DatabaseHelper databaseHelper;
     RelativeLayout rel_container;
     View view ;
+
+    //changes now
+    private RecyclerView recyclerView;
+    CategoryAdapter mAdapter;
+
     public FragmentHome() {
         // Required empty public constructor
     }
@@ -101,6 +112,9 @@ public class FragmentHome extends Fragment {
                              Bundle savedInstanceState) {
 
         category_id =34;
+        //catagory id for video
+        category_id33 = 33;
+
        view = inflater.inflate(R.layout.fragment_home,null);
 
         // Inflate the layout for this fragment
@@ -161,12 +175,13 @@ public class FragmentHome extends Fragment {
         //end of bishesh report workflow callling done
 
 
-        //video ma click garda video activity ma jancha
+        //video ma click garda video catagory ko video section
     lnr_video=view.findViewById(R.id.lnr_video);
     lnr_video.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(context, VideoActivity.class);
+            Intent intent = new Intent(context, VideoDetail.class);
+            intent.putExtra("category_id",category_id33);
             startActivity(intent);
         }
 
@@ -445,6 +460,7 @@ public class FragmentHome extends Fragment {
         Glide.with(context).load(list2.get(1).getImageId()).into(report_img2);
         Glide.with(context).load(list2.get(2).getImageId()).into(report_img3);
     }
+
 
 
 

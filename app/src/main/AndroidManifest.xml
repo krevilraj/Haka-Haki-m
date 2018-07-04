@@ -30,6 +30,7 @@
         <activity android:name=".CategoryDetail"></activity>
 
         <activity android:name=".VideoActivity"></activity>
+        <activity android:name=".VideoDetail"></activity>
 
         <activity android:name=".ActivityPostDetail"></activity>
 
