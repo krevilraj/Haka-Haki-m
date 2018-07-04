@@ -23,6 +23,7 @@ import com.mayurit.hakahaki.Adapters.CategoryNewsListAdapter;
 import com.mayurit.hakahaki.Helpers.Constant;
 import com.mayurit.hakahaki.Helpers.RecyclerItemClickListener;
 import com.mayurit.hakahaki.Helpers.RetrofitAPI;
+import com.mayurit.hakahaki.Model.CategoryModel;
 import com.mayurit.hakahaki.Model.NewsListModel;
 
 import java.util.ArrayList;
@@ -59,7 +60,14 @@ public class CategoryDetail extends AppCompatActivity {
         Toast.makeText(this, "categ = "+category_id, Toast.LENGTH_SHORT).show();
         rel_container = (RelativeLayout) findViewById(R.id.rel_container);
         swipeProgress(true);
-
+        swipe_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                list.clear();
+                mAdapter.notifyDataSetChanged();
+                requestAction();
+            }
+        });
         RecyclerWithListner();
     }
 
@@ -76,8 +84,13 @@ public class CategoryDetail extends AppCompatActivity {
                 new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
+
                         NewsListModel singleItem = list.get(position);
-                        Toast.makeText(CategoryDetail.this, "id = "+singleItem.getID(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CategoryDetail.this, "categ = "+singleItem.getID(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(CategoryDetail.this, ActivityPostDetail.class);
+                        intent.putExtra("post_id",singleItem.getID());
+                        startActivity(intent);
+
                     }
 
                     @Override
@@ -86,6 +99,20 @@ public class CategoryDetail extends AppCompatActivity {
                     }
                 })
         );
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                int topRowVerticalPosition =
+                        (recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
+                swipe_refresh.setEnabled(topRowVerticalPosition >= 0);
+
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -179,7 +206,7 @@ public class CategoryDetail extends AppCompatActivity {
                 swipeProgress(false);
                 Log.i("Bxx", "fetc = " + page_no);
                 for(NewsListModel data: response.body()){
-                    Log.i("postdata","v ="+data.getPostTitle());
+                    Log.i("postdata","v ="+data.getID());
                 }
                 displayApiResult(response.body());
                 mAdapter.notifyDataSetChanged();
@@ -199,15 +226,27 @@ public class CategoryDetail extends AppCompatActivity {
         noticeList.enqueue(new Callback<List<NewsListModel>>() {
             @Override
             public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
-                swipeProgress(false);
+                /*swipeProgress(false);
                 Log.i("Bxx", "fet = " + response.body().size());
                 list.addAll(response.body());
                 for(NewsListModel data: response.body()){
                     Log.i("postdata1","v ="+data.getPostTitle());
                 }
 
-                mAdapter.notifyDataSetChanged();
-//                img_next.setVisibility(View.VISIBLE);
+                mAdapter.notifyDataSetChanged();*/
+
+
+                swipeProgress(false);
+                List<NewsListModel> resp = response.body();
+                if (resp != null) {
+                    displayApiResult(response.body());
+                    Log.i("checkx","ayo");
+                   /* list.addAll(response.body());
+                    mAdapter.notifyDataSetChanged();*/
+                } else {
+                    showNoItemView(true);
+                }
+
             }
 
             @Override
@@ -233,6 +272,18 @@ public class CategoryDetail extends AppCompatActivity {
                 swipe_refresh.setRefreshing(show);
             }
         });
+    }
+
+    private void showNoItemView(boolean show) {
+        View lyt_no_item = (View) findViewById(R.id.lyt_no_item_category);
+        ((TextView) findViewById(R.id.no_item_message)).setText(R.string.no_category);
+        if (show) {
+            recyclerView.setVisibility(View.GONE);
+            lyt_no_item.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            lyt_no_item.setVisibility(View.GONE);
+        }
     }
 
 }

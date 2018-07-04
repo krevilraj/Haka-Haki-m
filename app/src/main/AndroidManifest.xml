@@ -26,7 +26,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+		
         <activity android:name=".CategoryDetail"></activity>
+        <activity android:name=".ActivityPostDetail"></activity>
 
     </application>
 
