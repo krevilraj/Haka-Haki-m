@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +27,7 @@ import com.mayurit.hakahaki.Helpers.RetrofitAPI;
 import com.mayurit.hakahaki.Model.CategoryModel;
 import com.mayurit.hakahaki.Model.NewsListModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,9 +37,7 @@ import retrofit2.Response;
 
 public class CategoryDetail extends AppCompatActivity {
 
-
-    public static final int DIALOG_DOWNLOAD_PROGRESS = 0;
-    private static final int PERMISSION_REQUEST_CODE = 23;
+    public static final String EXTRA_OBJC = "key.EXTRA_OBJC";
 
     int page_no;
     int totalRowsCategeory = Constant.CATEGORY_LIMIT;
@@ -88,7 +88,8 @@ public class CategoryDetail extends AppCompatActivity {
                         NewsListModel singleItem = list.get(position);
                         Toast.makeText(CategoryDetail.this, "categ = "+singleItem.getID(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(CategoryDetail.this, ActivityPostDetail.class);
-                        intent.putExtra("post_id",singleItem.getID());
+//                        intent.putExtra("post_id",singleItem.getID());
+                        intent.putExtra(EXTRA_OBJC, (Serializable) singleItem);
                         startActivity(intent);
 
                     }

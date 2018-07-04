@@ -52,8 +52,12 @@ public class RetrofitAPI {
         Call<List<NewsListModel>> getCategoryLimitNews(@Query("category") int category, @Query("offset") int offset, @Query("limit") int limit);
 
         @Headers("Cache-Control:no-cache")
+        @GET("./news-api/detail/")
+        Call<List<NewsListModel>> getPostDetail(@Query("id") String id);
+
+     /*   @Headers("Cache-Control:no-cache")
         @GET("./news-api/news_id/")
-        Call<List<NewsListModel>> getPostDetail(@Query("news_id") String news_id);
+        Call<List<NewsListModel>> getPostDetail(@Query("news_id") String news_id);*/
 
 
     }

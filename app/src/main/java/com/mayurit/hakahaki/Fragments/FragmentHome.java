@@ -185,8 +185,10 @@ public class FragmentHome extends Fragment {
             startActivity(intent);
         }
 
+
     });
     //end this section
+
 
  mobile_data();
         fetchNews();

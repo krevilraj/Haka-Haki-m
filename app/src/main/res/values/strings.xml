@@ -114,4 +114,5 @@
     <string name="failed_text">Sorry something went wrong Please Try again Later</string>
     <string name="no_internet_text">No Internet Connection Available</string>
     <string name="retry_txt">Retry</string>
+    <string name="app_name_nepali">Haka Haki</string>
 </resources>

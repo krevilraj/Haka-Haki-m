@@ -2,7 +2,9 @@ package com.mayurit.hakahaki.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class NewsListModel {
+import java.io.Serializable;
+
+public class NewsListModel implements Serializable {
 
     @SerializedName("ID")
     @Expose
@@ -23,6 +25,9 @@ public class NewsListModel {
     @SerializedName("like_count")
     @Expose
     private Object likeCount;
+    @SerializedName("post_content")
+    @Expose
+    private String postContent;
 
     public String getID() {
         return iD;
@@ -38,6 +43,14 @@ public class NewsListModel {
 
     public void setPostTitle(String postTitle) {
         this.postTitle = postTitle;
+    }
+
+    public String getPostContent() {
+        return postContent;
+    }
+
+    public void setPostContent(String postContent) {
+        this.postContent = postContent;
     }
 
     public String getPostExcerpt() {
