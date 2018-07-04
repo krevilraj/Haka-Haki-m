@@ -109,4 +109,8 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="no_category">There is no category available right now.</string>
+    <string name="failed_text">Sorry something went wrong Please Try again Later</string>
+    <string name="no_internet_text">No Internet Connection Available</string>
+    <string name="retry_txt">Retry</string>
 </resources>
