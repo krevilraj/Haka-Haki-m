@@ -55,4 +55,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         }
     }
 
+    public void setListData(List<CategoryModel> items){
+        this.mList = items;
+        notifyDataSetChanged();
+    }
+
+    public void resetListData() {
+        this.mList = new ArrayList<>();
+        notifyDataSetChanged();
+    }
+
 }
