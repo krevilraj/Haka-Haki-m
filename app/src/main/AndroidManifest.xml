@@ -27,6 +27,7 @@
         </activity>
         <activity android:name=".Notice" />
         <activity android:name=".CategoryDetail"></activity>
+        <activity android:name=".ActivityPostDetail"></activity>
     </application>
 
 </manifest>
