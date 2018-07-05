@@ -30,6 +30,7 @@ import com.mayurit.hakahaki.AudioActivity;
 
 import com.mayurit.hakahaki.Adapters.CategoryAdapter;
 
+import com.mayurit.hakahaki.AudioDetail;
 import com.mayurit.hakahaki.CategoryDetail;
 import com.mayurit.hakahaki.Helpers.Constant;
 import com.mayurit.hakahaki.Helpers.DatabaseHelper;
@@ -59,7 +60,7 @@ public class FragmentHome extends Fragment {
     private String mParam2;
     Context context;
 
-    int category_id,category_id2,category_id28,category_id33;
+    int category_id,category_id2,category_id28,category_id33,category_audio;
     LinearLayout lnr_video;
     CardView nefej,project,music;
     TextView mainNews1_title,mainNews2_title,mainNews3_title,mainNews4_title,
@@ -204,27 +205,25 @@ public class FragmentHome extends Fragment {
         nefej.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, AudioActivity.class);
+                Intent intent = new Intent(context, AudioDetail.class);
                 startActivity(intent);
             }
         });
+        category_audio = 33;
         music.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, AudioActivity.class);
+                Intent intent = new Intent(context, AudioDetail.class);
+                intent.putExtra("category_id",category_audio);
                 startActivity(intent);
             }
         });
-
 
         mobile_data();
         fetchNews();
         fetchbisheshsamachar_News();
         fetchbisheshreport_News();
-
         return view;
-
-
 
     }
 
@@ -410,8 +409,6 @@ public class FragmentHome extends Fragment {
                 List<NewsListModel> list2 = databaseHelper.getQAList("28");
                 // list.addAll(databaseHelper.getQAList("34"));
                 Log.i("msz","size = "+list.size());
-
-              //  display(listModel1);
                 displayreport(list2);
            lnrlayoutNews.setVisibility(View.VISIBLE);
             }
@@ -427,7 +424,7 @@ public class FragmentHome extends Fragment {
         if (activeNetwork != null) { // connected to the internet
             fetchNews();
         } else {
-            rel_container = (RelativeLayout) view.findViewById(R.id.rel_container);
+            rel_container = view.findViewById(R.id.rel_container);
             Snackbar snackbar = Snackbar.make(rel_container, "No internet connection!", Snackbar.LENGTH_INDEFINITE).setAction("RETRY", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -437,7 +434,7 @@ public class FragmentHome extends Fragment {
             snackbar.setActionTextColor(Color.RED);
 
             View sbView = snackbar.getView();
-            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            TextView textView = sbView.findViewById(android.support.design.R.id.snackbar_text);
             textView.setTextColor(Color.YELLOW);
             snackbar.show();
         }
