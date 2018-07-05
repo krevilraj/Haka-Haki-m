@@ -411,7 +411,7 @@ public class FragmentHome extends Fragment {
                 // list.addAll(databaseHelper.getQAList("34"));
                 Log.i("msz","size = "+list.size());
 
-                display(listModel1);
+              //  display(listModel1);
                 displayreport(list2);
            lnrlayoutNews.setVisibility(View.VISIBLE);
             }
@@ -467,8 +467,6 @@ public class FragmentHome extends Fragment {
         Glide.with(context).load(list.get(3).getImageId()).into(mainNews4_image);
     }
 
-
-                Log.i("list","data = " +list1.get(0).getPostTitle());
 
     //ofline catch for samachar
     private void displaybish(List<NewsListModel> list1) {
