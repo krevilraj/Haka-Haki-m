@@ -80,7 +80,7 @@
                 android:layout_height="@dimen/spacing_mxlarge"
                 android:layout_marginLeft="@dimen/spacing_medium"
                 android:layout_marginRight="@dimen/spacing_small"
-                android:src="@drawable/thumb_up"
+                app:srcCompat="@drawable/thumb_up"
                 android:tint="@color/grey_hard" />
 
 

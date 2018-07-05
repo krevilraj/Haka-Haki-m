@@ -28,7 +28,7 @@
                 android:paddingRight="@dimen/spacing_large"
                 android:paddingBottom="@dimen/spacing_large"
                 android:textStyle="bold"
-                android:text="@string/app_name_nepali"
+                android:text="Nepali maa name"
 
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="@color/grey_soft" />

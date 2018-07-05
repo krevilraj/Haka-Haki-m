@@ -27,8 +27,11 @@
             </intent-filter>
         </activity>
 		
-        <activity android:name=".CategoryDetail"></activity>
-        <activity android:name=".ActivityPostDetail"></activity>
+        <activity android:name=".CategoryDetail">
+
+        </activity>
+        <activity android:name=".ActivityPostDetail"> </activity>
+        <activity android:name=".AudioActivity"> </activity>
 
     </application>
 
