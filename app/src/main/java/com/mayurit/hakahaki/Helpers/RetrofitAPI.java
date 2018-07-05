@@ -2,6 +2,7 @@ package com.mayurit.hakahaki.Helpers;
 
 import com.mayurit.hakahaki.Model.CategoryModel;
 import com.mayurit.hakahaki.Model.NewsListModel;
+import com.mayurit.hakahaki.Model.ProjectModel;
 
 import java.util.List;
 
@@ -59,9 +60,9 @@ public class RetrofitAPI {
         @GET("./news-api/detail/")
         Call<NewsListModel> getPostDetail(@Query("id") String id);
 
-        /*@Headers("Cache-Control:no-cache")
-        @GET("./news-api/news_id/")
-        Call<List<NewsListModel>> getPostDetail(@Query("news_id") String news_id);*/
+        @Headers("Cache-Control:no-cache")
+        @GET("./news-api/project/")
+        Call<List<ProjectModel>> getProjectList();
 
 
     }

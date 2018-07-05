@@ -24,15 +24,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
 
-import com.mayurit.hakahaki.ActivityPostDetail;
 import com.mayurit.hakahaki.AudioActivity;
-
 
 import com.mayurit.hakahaki.Adapters.CategoryAdapter;
 
+import com.mayurit.hakahaki.AudioDetail;
 import com.mayurit.hakahaki.CategoryDetail;
 import com.mayurit.hakahaki.Helpers.Constant;
 import com.mayurit.hakahaki.Helpers.DatabaseHelper;
@@ -44,7 +42,6 @@ import com.mayurit.hakahaki.R;
 import com.mayurit.hakahaki.VideoActivity;
 import com.mayurit.hakahaki.VideoDetail;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,18 +52,15 @@ import retrofit2.Response;
 
 public class FragmentHome extends Fragment {
     private static final String ARG_PARAM1 = "toolbar_title";
-    public static final String EXTRA_OBJC = "key.EXTRA_OBJC";
 
     ArrayList<NewsListModel> list = new ArrayList<>();
     ArrayList<NewsListModel> list1 = new ArrayList<>();
     ArrayList<NewsListModel> list2 = new ArrayList<>();
-
-    MaterialRippleLayout r_ent1, r_ent2, r_ent3;
     private String toolbarTitle;
     private String mParam2;
     Context context;
 
-    int category_id,category_id2,category_id28,category_id33;
+    int category_id,category_id2,category_id28,category_id33,category_audio;
     LinearLayout lnr_video;
     CardView nefej,project,music;
     TextView mainNews1_title,mainNews2_title,mainNews3_title,mainNews4_title,
@@ -74,28 +68,25 @@ public class FragmentHome extends Fragment {
             mainNews1_date, mainNews2_date, mainNews3_date, mainNews4_date;
     ImageView mainNews1_image,mainNews2_image,mainNews3_image,mainNews4_image;
 
-
     //changes for bisheshsamachar
-    TextView bisheshsamachar_header, ent_title1, ent_title2, ent_title3, readmore;
-    ImageView ent_img1, ent_img2, ent_img3;
-    TextView ent_date1, ent_date2, ent_date3;
+    TextView bisheshsamachar_header,ent_title1,ent_title2,ent_title3,readmore;
+    ImageView ent_img1,ent_img2,ent_img3;
+    TextView ent_date1,ent_date2,ent_date3;
 
     //changes for bisheshrepor
-    TextView bisheshreport_header, report_title1, report_title2, report_title3, report_readmore;
-    ImageView report_img1, report_img2, report_img3;
-    TextView report_date1, report_date2, report_date3;
+    TextView bisheshreport_header,report_title1,report_title2,report_title3,report_readmore;
+    ImageView report_img1,report_img2,report_img3;
+    TextView report_date1,report_date2,report_date3;
 
     private Context ctx;
     private LinearLayout lnrlayoutNews;
     DatabaseHelper databaseHelper;
     RelativeLayout rel_container;
-
-    View view;
+    View view ;
 
     //changes now
     private RecyclerView recyclerView;
     CategoryAdapter mAdapter;
-
 
     public FragmentHome() {
         // Required empty public constructor
@@ -124,13 +115,12 @@ public class FragmentHome extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        category_id =34;
+        view = inflater.inflate(R.layout.fragment_home,null);
 
-
-        category_id = 34;
-        //catagory id for video
         category_id33 = 33;
+       view = inflater.inflate(R.layout.fragment_home,null);
 
-        view = inflater.inflate(R.layout.fragment_home, null);
 
         // Inflate the layout for this fragment
         databaseHelper = new DatabaseHelper(context);
@@ -158,55 +148,56 @@ public class FragmentHome extends Fragment {
         lnrlayoutNews = view.findViewById(R.id.lnrlayoutNews);
 
         //bisheshsamachar initialization workflow
-        bisheshsamachar_header = view.findViewById(R.id.bisheshsamachar_header);
-        ent_title1 = view.findViewById(R.id.ent_title1);
-        ent_title2 = view.findViewById(R.id.ent_title2);
-        ent_title3 = view.findViewById(R.id.ent_title3);
+        bisheshsamachar_header=view.findViewById(R.id.bisheshsamachar_header);
+        ent_title1=view.findViewById(R.id.ent_title1);
+        ent_title2=view.findViewById(R.id.ent_title2);
+        ent_title3=view.findViewById(R.id.ent_title3);
 
-        readmore = view.findViewById(R.id.readmore);
+        readmore=view.findViewById(R.id.readmore);
 
-        ent_date1 = view.findViewById(R.id.ent_date1);
-        ent_date2 = view.findViewById(R.id.ent_date2);
-        ent_date3 = view.findViewById(R.id.ent_date3);
+        ent_date1=view.findViewById(R.id.ent_date1);
+        ent_date2=view.findViewById(R.id.ent_date2);
+        ent_date3=view.findViewById(R.id.ent_date3);
 
 
-        ent_img1 = view.findViewById(R.id.ent_img1);
-        ent_img2 = view.findViewById(R.id.ent_img2);
-        ent_img3 = view.findViewById(R.id.ent_img3);
+        ent_img1=view.findViewById(R.id.ent_img1);
+        ent_img2=view.findViewById(R.id.ent_img2);
+        ent_img3=view.findViewById(R.id.ent_img3);
         //end of bisheshsamachar portion
 
         //bishesh report workflow
         bisheshreport_header = view.findViewById(R.id.bisheshreport_header);
-        report_title1 = view.findViewById(R.id.report_title1);
-        report_title2 = view.findViewById(R.id.report_title2);
-        report_title3 = view.findViewById(R.id.report_title3);
+        report_title1=view.findViewById(R.id.report_title1);
+        report_title2=view.findViewById(R.id.report_title2);
+        report_title3=view.findViewById(R.id.report_title3);
 
-        report_readmore = view.findViewById(R.id.report_readmore);
+        report_readmore=view.findViewById(R.id.report_readmore);
 
-        report_date1 = view.findViewById(R.id.report_date1);
-        report_date2 = view.findViewById(R.id.report_date2);
-        report_date3 = view.findViewById(R.id.report_date3);
+        report_date1=view.findViewById(R.id.report_date1);
+        report_date2=view.findViewById(R.id.report_date2);
+        report_date3=view.findViewById(R.id.report_date3);
 
 
-        report_img1 = view.findViewById(R.id.report_img1);
-        report_img2 = view.findViewById(R.id.report_img2);
-        report_img3 = view.findViewById(R.id.report_img3);
+
+        report_img1=view.findViewById(R.id.report_img1);
+        report_img2=view.findViewById(R.id.report_img2);
+        report_img3=view.findViewById(R.id.report_img3);
         //end of bishesh report workflow callling done
 
 
         //video ma click garda video catagory ko video section
-        lnr_video = view.findViewById(R.id.lnr_video);
-        lnr_video.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, VideoDetail.class);
-                intent.putExtra("category_id", category_id33);
-                startActivity(intent);
-            }
+    lnr_video=view.findViewById(R.id.lnr_video);
+    lnr_video.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(context, VideoDetail.class);
+            intent.putExtra("category_id",category_id33);
+            startActivity(intent);
+        }
 
 
-        });
-        //end this section
+    });
+    //end this section
 
         nefej = view.findViewById(R.id.nefej);
         project = view.findViewById(R.id.project);
@@ -214,26 +205,25 @@ public class FragmentHome extends Fragment {
         nefej.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, AudioActivity.class);
+                Intent intent = new Intent(context, AudioDetail.class);
                 startActivity(intent);
             }
         });
+        category_audio = 33;
         music.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, AudioActivity.class);
+                Intent intent = new Intent(context, AudioDetail.class);
+                intent.putExtra("category_id",category_audio);
                 startActivity(intent);
             }
         });
-
 
         mobile_data();
         fetchNews();
         fetchbisheshsamachar_News();
         fetchbisheshreport_News();
-
         return view;
-
 
     }
 
@@ -242,21 +232,18 @@ public class FragmentHome extends Fragment {
         getActivity().setTitle(toolbarTitle);
         super.onResume();
     }
-
-    public void fetchNews() {
-        Call<List<NewsListModel>> newsList = RetrofitAPI.getService().getCategoryLimitNews(category_id, 4, Constant.CATEGORY_LIMIT);
+    public void  fetchNews(){
+        Call<List<NewsListModel>> newsList = RetrofitAPI.getService().getCategoryLimitNews(category_id,4, Constant.CATEGORY_LIMIT);
         newsList.enqueue(new Callback<List<NewsListModel>>() {
             @Override
             public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
                 list.addAll(response.body());
-                Log.i("list", "data = " + list.get(0).getPostTitle());
+                Log.i("list","data = " +list.get(0).getPostTitle());
 
                 display(list);
 
                 lnrlayoutNews.setVisibility(View.VISIBLE);
-
-                for (NewsListModel info : list) {
-
+                for(NewsListModel info:list){
                     ContentValues cv = new ContentValues();
                     cv.put("post_title", info.getPostTitle());
                     cv.put("category_id", 34);
@@ -265,9 +252,7 @@ public class FragmentHome extends Fragment {
                     databaseHelper.insertMainNews(cv);
                 }
 
-
-                Log.i("list", "data = " + list.get(0).getPostTitle());
-
+                Log.i("list","data = " +list.get(0).getPostTitle());
 
 
                 mainNews1_title.setText(list.get(0).getPostTitle());
@@ -291,6 +276,7 @@ public class FragmentHome extends Fragment {
                 Glide.with(context).load(list.get(3).getImageId()).into(mainNews4_image);
 
 
+
             }
 
             @Override
@@ -299,18 +285,17 @@ public class FragmentHome extends Fragment {
             }
         });
     }
-
-    public void fetchbisheshsamachar_News() {
-        category_id2 = 2;
-        final Call<List<NewsListModel>> newsList = RetrofitAPI.getService().getCategoryLimitNews(2, 0, 3);
+    public void  fetchbisheshsamachar_News(){
+        category_id2=2;
+        final Call<List<NewsListModel>> newsList = RetrofitAPI.getService().getCategoryLimitNews(2,0, 3);
         newsList.enqueue(new Callback<List<NewsListModel>>() {
             @Override
             public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
                 list1.addAll(response.body());
 
-                Log.i("list", "data = " + list1.get(0).getPostTitle());
+                Log.i("list","data = " +list1.get(0).getPostTitle());
 
-                for (NewsListModel info : list1) {
+                for(NewsListModel info:list1){
                     ContentValues cv = new ContentValues();
                     cv.put("post_title", info.getPostTitle());
                     cv.put("category_id", category_id2);
@@ -333,14 +318,15 @@ public class FragmentHome extends Fragment {
                 Glide.with(context).load(list1.get(1).getImageId()).into(ent_img2);
                 Glide.with(context).load(list1.get(2).getImageId()).into(ent_img3);
 
-                readmore.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(context, CategoryDetail.class);
-                        intent.putExtra("category_id", category_id2);
-                        startActivity(intent);
-                    }
-                });
+                 readmore.setOnClickListener(new View.OnClickListener() {
+                     @Override
+                     public void onClick(View view) {
+                         Intent intent = new Intent(context, CategoryDetail.class);
+                         intent.putExtra("category_id",category_id2);
+                         startActivity(intent);
+                     }
+                 });
+
 
 
             }
@@ -353,16 +339,16 @@ public class FragmentHome extends Fragment {
     }
 
     //call the values from server and set
-    public void fetchbisheshreport_News() {
-        category_id28 = 28;
-        Call<List<NewsListModel>> newsList = RetrofitAPI.getService().getCategoryLimitNews(28, 0, 3);
+    public void  fetchbisheshreport_News(){
+        category_id28=28;
+        Call<List<NewsListModel>> newsList = RetrofitAPI.getService().getCategoryLimitNews(28,0, 3);
         newsList.enqueue(new Callback<List<NewsListModel>>() {
             @Override
             public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
                 list2.addAll(response.body());
 
 
-                for (NewsListModel info : list2) {
+                for(NewsListModel info:list2){
                     ContentValues cv = new ContentValues();
                     cv.put("post_title", info.getPostTitle());
                     cv.put("category_id", category_id28);
@@ -370,7 +356,7 @@ public class FragmentHome extends Fragment {
                     cv.put("post_description", info.getPostExcerpt());
                     databaseHelper.insertMainNews(cv);
                 }
-                Log.i("list", "data = " + list2.get(0).getPostTitle());
+                Log.i("list","data = " +list2.get(0).getPostTitle());
 
 
                 //set the values from the server to filed in bishesh report
@@ -390,7 +376,7 @@ public class FragmentHome extends Fragment {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(context, CategoryDetail.class);
-                        intent.putExtra("category_id", category_id28);
+                        intent.putExtra("category_id",category_id28);
                         startActivity(intent);
                     }
                 });
@@ -404,7 +390,6 @@ public class FragmentHome extends Fragment {
         });
 
     }
-
     public void mobile_data(){
         Log.i("msz", "v="+databaseHelper.countRowTable("tbl_news"));
         if((databaseHelper.countRowTable("tbl_news") == 0)){
@@ -416,30 +401,19 @@ public class FragmentHome extends Fragment {
             Log.i("msz","size = "+list.size());
             display(listModel);
 
-    public void mobile_data() {
-        Log.i("msz", "v=" + databaseHelper.countRowTable("tbl_news"));
-        if ((databaseHelper.countRowTable("tbl_news") == 0)) {
-            netCheck();
-        } else {
-            List<NewsListModel> listModel = databaseHelper.getQAList("34");
-            // list.addAll(databaseHelper.getQAList("34"));
-            Log.i("msz", "size = " + list.size());
-            display(listModel);
+                List<NewsListModel> list1 = databaseHelper.getQAList("2");
+                // list.addAll(databaseHelper.getQAList("34"));
+                Log.i("msz","size = "+list.size());
+                displaybish(list1);
 
-            List<NewsListModel> list1 = databaseHelper.getQAList("2");
-            // list.addAll(databaseHelper.getQAList("34"));
-            Log.i("msz", "size = " + list.size());
-            displaybish(list1);
-
-            List<NewsListModel> list2 = databaseHelper.getQAList("28");
-            // list.addAll(databaseHelper.getQAList("34"));
-            Log.i("msz", "size = " + list.size());
-
-            displayreport(list2);
+                List<NewsListModel> list2 = databaseHelper.getQAList("28");
+                // list.addAll(databaseHelper.getQAList("34"));
+                Log.i("msz","size = "+list.size());
+                displayreport(list2);
+           lnrlayoutNews.setVisibility(View.VISIBLE);
+            }
 
 
-            lnrlayoutNews.setVisibility(View.VISIBLE);
-        }
 
     }
 
@@ -450,7 +424,7 @@ public class FragmentHome extends Fragment {
         if (activeNetwork != null) { // connected to the internet
             fetchNews();
         } else {
-            rel_container = (RelativeLayout) view.findViewById(R.id.rel_container);
+            rel_container = view.findViewById(R.id.rel_container);
             Snackbar snackbar = Snackbar.make(rel_container, "No internet connection!", Snackbar.LENGTH_INDEFINITE).setAction("RETRY", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -460,7 +434,7 @@ public class FragmentHome extends Fragment {
             snackbar.setActionTextColor(Color.RED);
 
             View sbView = snackbar.getView();
-            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            TextView textView = sbView.findViewById(android.support.design.R.id.snackbar_text);
             textView.setTextColor(Color.YELLOW);
             snackbar.show();
         }
@@ -522,5 +496,8 @@ public class FragmentHome extends Fragment {
         Glide.with(context).load(list2.get(1).getImageId()).into(report_img2);
         Glide.with(context).load(list2.get(2).getImageId()).into(report_img3);
     }
+
+
+
 
 }

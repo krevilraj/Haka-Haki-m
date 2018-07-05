@@ -30,9 +30,10 @@
             android:name=".ActivityPostDetail"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".PostDetail"></activity>
-   <activity android:name=".AudioActivity"> </activity>
+        <activity android:name=".AudioActivity"></activity>
         <activity android:name=".VideoActivity"></activity>
         <activity android:name=".VideoDetail"></activity>
+        <activity android:name=".AudioDetail"></activity>
     </application>
 
 </manifest>
