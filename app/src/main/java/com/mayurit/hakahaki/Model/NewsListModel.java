@@ -78,6 +78,9 @@ public class NewsListModel implements Serializable {
     }
 
     public Object getLikeCount() {
+        if(likeCount==null){
+            likeCount="";
+        }
         return likeCount;
     }
 
