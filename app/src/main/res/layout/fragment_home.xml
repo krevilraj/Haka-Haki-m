@@ -176,6 +176,7 @@
                     android:foreground="?android:attr/selectableItemBackground">
 
                     <LinearLayout
+                        android:id="@+id/lnr_video"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#93c54c"
@@ -344,7 +345,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                >
+                 android:visibility="gone">
+
 
 
                 <android.support.v7.widget.CardView
@@ -415,7 +417,7 @@
 
                         </RelativeLayout>
 
-                        <ImageView
+                            <ImageView
                             android:id="@+id/mainNews1_image"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
@@ -914,6 +916,7 @@
                                         android:layout_height="wrap_content"
                                         android:background="@color/grey_medium">
 
+
                                         <ImageView
                                             android:layout_width="@dimen/spacing_xlarge"
                                             android:layout_height="@dimen/spacing_xlarge"
@@ -1039,7 +1042,7 @@
                                         android:layout_weight="1"
                                         android:orientation="vertical">
 
-                                        <TextView
+                                         <TextView
                                             android:id="@+id/ent_title2"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
