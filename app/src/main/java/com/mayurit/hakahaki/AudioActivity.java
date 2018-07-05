@@ -2,6 +2,8 @@ package com.mayurit.hakahaki;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -9,7 +11,7 @@ import android.widget.ImageButton;
 
 import at.blogc.android.views.ExpandableTextView;
 
-public class AudioActivity extends Activity {
+public class AudioActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
