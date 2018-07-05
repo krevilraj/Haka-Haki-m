@@ -896,7 +896,6 @@
                             android:text="बिशेष समाचार " />
 
                         <com.balysv.materialripple.MaterialRippleLayout
-                            android:id="@+id/r_ent1"
                             style="@style/RippleStyleBlack"
                             android:layout_width="match_parent"
                             android:layout_height="80dp">
@@ -998,7 +997,6 @@
                         </com.balysv.materialripple.MaterialRippleLayout>
 
                         <com.balysv.materialripple.MaterialRippleLayout
-                            android:id="@+id/r_ent2"
                             style="@style/RippleStyleBlack"
                             android:layout_width="match_parent"
                             android:layout_height="80dp">
@@ -1098,7 +1096,6 @@
 
                         </com.balysv.materialripple.MaterialRippleLayout>
                         <com.balysv.materialripple.MaterialRippleLayout
-                            android:id="@+id/r_ent3"
                             style="@style/RippleStyleBlack"
                             android:layout_width="match_parent"
                             android:layout_height="80dp">
