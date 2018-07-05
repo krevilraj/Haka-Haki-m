@@ -5,12 +5,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,13 +20,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mayurit.hakahaki.Adapters.CategoryNewsListAdapter;
+import com.mayurit.hakahaki.Adapters.VideoListAdapter;
 import com.mayurit.hakahaki.Helpers.Constant;
 import com.mayurit.hakahaki.Helpers.RecyclerItemClickListener;
 import com.mayurit.hakahaki.Helpers.RetrofitAPI;
-import com.mayurit.hakahaki.Model.CategoryModel;
 import com.mayurit.hakahaki.Model.NewsListModel;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,9 +33,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CategoryDetail extends AppCompatActivity {
+public class VideoDetail extends AppCompatActivity {
 
-    public static final String EXTRA_OBJC = "key.EXTRA_OBJC";
+
+    public static final int DIALOG_DOWNLOAD_PROGRESS = 0;
+    private static final int PERMISSION_REQUEST_CODE = 23;
 
     int page_no;
     int totalRowsCategeory = Constant.CATEGORY_LIMIT;
@@ -47,7 +47,7 @@ public class CategoryDetail extends AppCompatActivity {
     int category_id;
     SwipeRefreshLayout swipe_refresh;
 
-    CategoryNewsListAdapter mAdapter;
+    VideoListAdapter mAdapter;
 
 
     @Override
@@ -77,7 +77,7 @@ public class CategoryDetail extends AppCompatActivity {
         recyclerView.setFocusable(false);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new CategoryNewsListAdapter(this, list, recyclerView);
+        mAdapter = new VideoListAdapter(this, list, recyclerView);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.addOnItemTouchListener(
@@ -86,10 +86,9 @@ public class CategoryDetail extends AppCompatActivity {
                     public void onItemClick(View view, int position) {
 
                         NewsListModel singleItem = list.get(position);
-                        Toast.makeText(CategoryDetail.this, "categ = "+singleItem.getID(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(CategoryDetail.this, ActivityPostDetail.class);
-//                        intent.putExtra("post_id",singleItem.getID());
-                        intent.putExtra(EXTRA_OBJC, (Serializable) singleItem);
+                        Toast.makeText(VideoDetail.this, "categ = "+singleItem.getID(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(VideoDetail.this, VideoActivity.class);
+                        intent.putExtra("post_id",singleItem.getID());
                         startActivity(intent);
 
                     }
@@ -118,7 +117,7 @@ public class CategoryDetail extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         // detect when scroll reach bottom
-        mAdapter.setOnLoadMoreListener(new CategoryNewsListAdapter.OnLoadMoreListener() {
+        mAdapter.setOnLoadMoreListener(new VideoListAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore(int current_page) {
                 totalRowsCategeory += Constant.CATEGORY_LIMIT;
@@ -216,7 +215,7 @@ public class CategoryDetail extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<NewsListModel>> call, Throwable throwable) {
-                Toast.makeText(CategoryDetail.this, "Failed to load", Toast.LENGTH_SHORT).show();
+                Toast.makeText(VideoDetail.this, "Failed to load", Toast.LENGTH_SHORT).show();
             }
         });
 
