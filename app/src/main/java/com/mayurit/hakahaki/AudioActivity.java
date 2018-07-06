@@ -1,61 +1,51 @@
 package com.mayurit.hakahaki;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mayurit.hakahaki.Adapters.ProjectListAdapter;
 import com.mayurit.hakahaki.Helpers.Constant;
-import com.mayurit.hakahaki.Helpers.RecyclerItemClickListener;
 import com.mayurit.hakahaki.Helpers.RetrofitAPI;
 import com.mayurit.hakahaki.Model.AudioModel;
-import com.mayurit.hakahaki.Model.ProjectModel;
+import com.mayurit.hakahaki.Model.NewsListModel;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
+import at.blogc.android.views.ExpandableTextView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.mayurit.hakahaki.AudioDetail.EXTRA_OBJC;
+
 public class AudioActivity extends AppCompatActivity {
 
-    public static final String EXTRA_OBJC = "key.EXTRA_OBJC";
-
     String post_id;
-    ImageButton btnplay;
+    ImageButton btnplay, btnpause;
     private MediaPlayer mediaPlayer;
     private boolean playPause;
     TextView audio_title, audio_description, audio_date;
     private boolean initialStage = true;
     AudioModel post;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audio);
 
-       /* Intent intent = getIntent();
+        Intent intent = getIntent();
         post = (AudioModel) getIntent().getSerializableExtra(EXTRA_OBJC);
         Toast.makeText(this, "categ = " + post_id, Toast.LENGTH_SHORT).show();
         audio_title = findViewById(R.id.audio_title);
@@ -64,34 +54,31 @@ public class AudioActivity extends AppCompatActivity {
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         btnplay = findViewById(R.id.btnplay);
-      *//*  btnplay.setOnClickListener(new View.OnClickListener() {
+        btnplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(AudioActivity.this, "Play", Toast.LENGTH_SHORT).show();
                 if (!playPause) {
-                    Toast.makeText(AudioActivity.this, "Pause", Toast.LENGTH_SHORT).show();
-
+                        btnplay.setImageResource(R.drawable.ic_pause);
                     if (initialStage) {
                         new Player().execute("https://www.ssaurel.com/tmp/mymusic.mp3");
                     } else {
                         if (!mediaPlayer.isPlaying())
                             mediaPlayer.start();
                     }
-
                     playPause = true;
 
                 } else {
-                    Toast.makeText(AudioActivity.this, "playing", Toast.LENGTH_SHORT).show();
-
                     if (mediaPlayer.isPlaying()) {
                         mediaPlayer.pause();
+                        btnplay.setImageResource(R.drawable.ic_play);
                     }
 
                     playPause = false;
                 }
-
             }
         });
+     displayAudioDetail();
+        fetchData();
     }
 
     @Override
@@ -117,6 +104,7 @@ public class AudioActivity extends AppCompatActivity {
                     public void onCompletion(MediaPlayer mediaPlayer) {
                         initialStage = true;
                         playPause = false;
+                        btnplay.setImageResource(R.drawable.ic_play);
                         mediaPlayer.stop();
                         mediaPlayer.reset();
                     }
@@ -126,32 +114,40 @@ public class AudioActivity extends AppCompatActivity {
                 prepared = true;
 
             } catch (Exception e) {
-                Log.e("MyAudioStreamingApp", e.getMessage());
+                Log.e("MyAudioStreamingApp",e.getMessage());
                 prepared = false;
             }
 
             return prepared;
         }
 
-*//*
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
 
-        displayAudioDetail();
-        fetchData();*/
+            mediaPlayer.start();
+            initialStage = false;
+        }
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
     }
 
-   /* public void fetchData() {
+
+    public void fetchData() {
 
         Call<AudioModel> noticeList = RetrofitAPI.getService().getAudioDetail("audio",post.getID());
         noticeList.enqueue(new Callback<AudioModel>() {
             @Override
             public void onResponse(Call<AudioModel> call, Response<AudioModel> response) {
-                post = (AudioModel) response.body();
+                               post = (AudioModel) response.body();
                 if (post != null) {
                     displayAudioDetail();
 
                 } else {
-                    // showNoItemView(true);
+                   // showNoItemView(true);
                 }
             }
 
@@ -166,8 +162,7 @@ public class AudioActivity extends AppCompatActivity {
     private void displayAudioDetail(){
         audio_title.setText(post.getPostTitle());
         audio_date.setText(post.getPostDate());
-        Toast.makeText(this, "test" +post.getPostContent(), Toast.LENGTH_SHORT).show();
         audio_description.setText(post.getPostContent());
 
-    }*/
+    }
 }
