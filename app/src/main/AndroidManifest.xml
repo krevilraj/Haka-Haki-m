@@ -26,14 +26,19 @@
             </intent-filter>
         </activity>
         <activity android:name=".CategoryDetail" />
-        <activity
-            android:name=".ActivityPostDetail"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".PostDetail"></activity>
-   <activity android:name=".AudioActivity"> </activity>
-   <activity android:name=".AudioDetail"> </activity>
-        <activity android:name=".VideoActivity"></activity>
-        <activity android:name=".VideoDetail"></activity>
+        <activity android:name=".ActivityPostDetail" />
+        <activity android:name=".PostDetail"/>
+
+        <activity android:name=".AudioActivity"/>
+        <activity android:name=".AudioDetail"/>
+
+        <activity android:name=".VideoActivity"/>
+        <activity android:name=".VideoDetail"/>
+        <activity android:name=".ProjectDetail"/>
+        <activity android:name=".ActivityProjectDetail"/>
+        <activity android:name=".NEEFEJDetail"/>
+        <activity android:name=".ActivityNEEFEJDetail"/>
+
     </application>
 
 </manifest>

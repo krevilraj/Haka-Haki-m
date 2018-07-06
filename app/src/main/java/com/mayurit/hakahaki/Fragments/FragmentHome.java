@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,12 +19,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
-
-import com.mayurit.hakahaki.AudioActivity;
 
 import com.mayurit.hakahaki.Adapters.CategoryAdapter;
 
@@ -34,12 +29,11 @@ import com.mayurit.hakahaki.AudioDetail;
 import com.mayurit.hakahaki.CategoryDetail;
 import com.mayurit.hakahaki.Helpers.Constant;
 import com.mayurit.hakahaki.Helpers.DatabaseHelper;
-import com.mayurit.hakahaki.Helpers.RecyclerItemClickListener;
 import com.mayurit.hakahaki.Helpers.RetrofitAPI;
-import com.mayurit.hakahaki.Model.CategoryModel;
 import com.mayurit.hakahaki.Model.NewsListModel;
+import com.mayurit.hakahaki.NEEFEJDetail;
+import com.mayurit.hakahaki.ProjectDetail;
 import com.mayurit.hakahaki.R;
-import com.mayurit.hakahaki.VideoActivity;
 import com.mayurit.hakahaki.VideoDetail;
 
 import java.util.ArrayList;
@@ -57,7 +51,6 @@ public class FragmentHome extends Fragment {
     ArrayList<NewsListModel> list1 = new ArrayList<>();
     ArrayList<NewsListModel> list2 = new ArrayList<>();
     private String toolbarTitle;
-    private String mParam2;
     Context context;
 
     int category_id,category_id2,category_id28,category_id33,category_audio;
@@ -205,7 +198,14 @@ public class FragmentHome extends Fragment {
         nefej.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, AudioDetail.class);
+                Intent intent = new Intent(context, NEEFEJDetail.class);
+                startActivity(intent);
+            }
+        });
+        project.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ProjectDetail.class);
                 startActivity(intent);
             }
         });
@@ -285,6 +285,7 @@ public class FragmentHome extends Fragment {
             }
         });
     }
+
     public void  fetchbisheshsamachar_News(){
         category_id2=2;
         final Call<List<NewsListModel>> newsList = RetrofitAPI.getService().getCategoryLimitNews(2,0, 3);
