@@ -89,7 +89,7 @@ public class CategoryNewsListAdapter extends RecyclerView.Adapter<RecyclerView.V
             holder.mTitle.setText(mData.getPostTitle());
             holder.mDescription.setText(mData.getPostExcerpt());
             holder.mDate.setText(mData.getPostDate());
-            if(!mData.getImageId().equals("")){
+            if(!(mData.getImageId().equals(""))){
                 holder.mAltImage.setVisibility(View.INVISIBLE);
                 Glide.with(ctx).load(mData.getImageId()).into(holder.mThumbImage);
             }

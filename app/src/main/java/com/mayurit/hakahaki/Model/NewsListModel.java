@@ -70,6 +70,9 @@ public class NewsListModel implements Serializable {
     }
 
     public String getImageId() {
+        if(imageId==null){
+            imageId="";
+        }
         return imageId;
     }
 
