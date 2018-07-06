@@ -346,8 +346,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                 android:visibility="gone">
-
+               android:visibility="gone" >
 
 
                 <android.support.v7.widget.CardView
@@ -406,6 +405,7 @@
                                         app:srcCompat="@drawable/time" />
 
                                     <TextView
+                                        android:id="@+id/mainNews1_date"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_centerVertical="true"
@@ -526,6 +526,7 @@
                                         app:srcCompat="@drawable/time" />
 
                                     <TextView
+                                        android:id="@+id/mainNews2_date"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_centerVertical="true"
@@ -669,6 +670,7 @@
                                         app:srcCompat="@drawable/time" />
 
                                     <TextView
+                                        android:id="@+id/mainNews3_date"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_centerVertical="true"
@@ -789,6 +791,7 @@
                                         app:srcCompat="@drawable/time" />
 
                                     <TextView
+                                        android:id="@+id/mainNews4_date"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_centerVertical="true"

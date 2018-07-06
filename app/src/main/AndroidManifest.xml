@@ -25,18 +25,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".CategoryDetail" />
         <activity
             android:name=".ActivityPostDetail"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".PostDetail"></activity>
-
-
+   <activity android:name=".AudioActivity"> </activity>
+   <activity android:name=".AudioDetail"> </activity>
         <activity android:name=".VideoActivity"></activity>
         <activity android:name=".VideoDetail"></activity>
-
-
     </application>
 
 </manifest>
