@@ -1,33 +1,34 @@
 package com.mayurit.hakahaki.Model;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class NewsListModel implements Serializable {
+public class AudioModel implements Serializable {
 
     @SerializedName("ID")
     @Expose
     private String iD;
-
     @SerializedName("post_title")
     @Expose
     private String postTitle;
-    @SerializedName("post_excerpt")
-    @Expose
-    private String postExcerpt;
     @SerializedName("post_date")
     @Expose
     private String postDate;
-    @SerializedName("image_id")
+    @SerializedName("post_excerpt")
     @Expose
-    private String imageId;
-    @SerializedName("like_count")
-    @Expose
-    private Object likeCount;
+    private String postExcerpt;
+
     @SerializedName("post_content")
     @Expose
     private String postContent;
+    @SerializedName("image_id")
+    @Expose
+    private Object imageId;
+    @SerializedName("audio_file")
+    @Expose
+    private Object audioFile;
 
     public String getID() {
         return iD;
@@ -45,12 +46,12 @@ public class NewsListModel implements Serializable {
         this.postTitle = postTitle;
     }
 
-    public String getPostContent() {
-        return postContent;
+    public String getPostDate() {
+        return postDate;
     }
 
-    public void setPostContent(String postContent) {
-        this.postContent = postContent;
+    public void setPostDate(String postDate) {
+        this.postDate = postDate;
     }
 
     public String getPostExcerpt() {
@@ -61,31 +62,27 @@ public class NewsListModel implements Serializable {
         this.postExcerpt = postExcerpt;
     }
 
-    public String getPostDate() {
-        return postDate;
-    }
-
-    public void setPostDate(String postDate) {
-        this.postDate = postDate;
-    }
-
-    public String getImageId() {
+    public Object getImageId() {
         return imageId;
     }
 
-    public void setImageId(String imageId) {
+    public void setImageId(Object imageId) {
         this.imageId = imageId;
     }
 
-    public Object getLikeCount() {
-        if(likeCount==null){
-            likeCount="";
-        }
-        return likeCount;
+    public Object getAudioFile() {
+        return audioFile;
     }
 
-    public void setLikeCount(Object likeCount) {
-        this.likeCount = likeCount;
+    public void setAudioFile(Object audioFile) {
+        this.audioFile = audioFile;
     }
 
+    public String getPostContent() {
+        return postContent;
+    }
+
+    public void setPostContent(String postContent) {
+        this.postContent = postContent;
+    }
 }

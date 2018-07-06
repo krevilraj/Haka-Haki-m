@@ -5,12 +5,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,12 +19,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mayurit.hakahaki.Adapters.CategoryNewsListAdapter;
+import com.mayurit.hakahaki.Adapters.AudioListAdapter;
 import com.mayurit.hakahaki.Helpers.Constant;
 import com.mayurit.hakahaki.Helpers.RecyclerItemClickListener;
 import com.mayurit.hakahaki.Helpers.RetrofitAPI;
-import com.mayurit.hakahaki.Model.CategoryModel;
-import com.mayurit.hakahaki.Model.NewsListModel;
+import com.mayurit.hakahaki.Model.AudioModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,19 +33,21 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CategoryDetail extends AppCompatActivity {
+public class AudioDetail extends AppCompatActivity {
+
+
+    public static final int DIALOG_DOWNLOAD_PROGRESS = 0;
+    private static final int PERMISSION_REQUEST_CODE = 23;
 
     public static final String EXTRA_OBJC = "key.EXTRA_OBJC";
-
     int page_no;
     int totalRowsCategeory = Constant.CATEGORY_LIMIT;
-    ArrayList<NewsListModel> list = new ArrayList<>();
+    ArrayList<AudioModel> list = new ArrayList<>();
     private RecyclerView recyclerView;
     RelativeLayout rel_container;
     int category_id;
     SwipeRefreshLayout swipe_refresh;
-
-    CategoryNewsListAdapter mAdapter;
+    AudioListAdapter mAdapter;
 
 
     @Override
@@ -77,18 +77,16 @@ public class CategoryDetail extends AppCompatActivity {
         recyclerView.setFocusable(false);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new CategoryNewsListAdapter(this, list, recyclerView);
+        mAdapter = new AudioListAdapter(this, list, recyclerView);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-
-                        NewsListModel singleItem = list.get(position);
-                        Toast.makeText(CategoryDetail.this, "categ = "+singleItem.getID(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(CategoryDetail.this, ActivityPostDetail.class);
-//                        intent.putExtra("post_id",singleItem.getID());
+                        AudioModel singleItem = list.get(position);
+                        Intent intent = new Intent(AudioDetail.this, AudioActivity.class);
+                     //   intent.putExtra("post_id",singleItem.getID());
                         intent.putExtra(EXTRA_OBJC, (Serializable) singleItem);
                         startActivity(intent);
 
@@ -118,7 +116,7 @@ public class CategoryDetail extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         // detect when scroll reach bottom
-        mAdapter.setOnLoadMoreListener(new CategoryNewsListAdapter.OnLoadMoreListener() {
+        mAdapter.setOnLoadMoreListener(new AudioListAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore(int current_page) {
                 totalRowsCategeory += Constant.CATEGORY_LIMIT;
@@ -131,7 +129,7 @@ public class CategoryDetail extends AppCompatActivity {
                 }
             }
         });
-        requestAction();
+        netCheck1();
 
     }
 
@@ -173,7 +171,7 @@ public class CategoryDetail extends AppCompatActivity {
 
     }
 
-    /*public void netCheck1() {
+    public void netCheck1() {
 
         ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
@@ -194,19 +192,19 @@ public class CategoryDetail extends AppCompatActivity {
             snackbar.show();
         }
 
-    }*/
+    }
 
 
     public void fetchData() {
        Log.i("Bxx","categoryid="+category_id+"page="+page_no+"Con="+Constant.CATEGORY_LIMIT);
 
-        Call<List<NewsListModel>> noticeList = RetrofitAPI.getService().getCategoryLimitNews(category_id,page_no*10, Constant.CATEGORY_LIMIT);
-        noticeList.enqueue(new Callback<List<NewsListModel>>() {
+        Call<List<AudioModel>> noticeList = RetrofitAPI.getService().getAudioList("audio",page_no*10, Constant.CATEGORY_LIMIT);
+        noticeList.enqueue(new Callback<List<AudioModel>>() {
             @Override
-            public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
+            public void onResponse(Call<List<AudioModel>> call, Response<List<AudioModel>> response) {
                 swipeProgress(false);
                 Log.i("Bxx", "fetc = " + page_no);
-                for(NewsListModel data: response.body()){
+                for(AudioModel data: response.body()){
                     Log.i("postdata","v ="+data.getID());
                 }
                 displayApiResult(response.body());
@@ -215,35 +213,35 @@ public class CategoryDetail extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<NewsListModel>> call, Throwable throwable) {
-                Toast.makeText(CategoryDetail.this, "Failed to load", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<List<AudioModel>> call, Throwable throwable) {
+                Toast.makeText(AudioDetail.this, "Failed to load", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
-    /*public void fetchData1() {
+    public void fetchData1() {
         Log.i("Bxx1","categoryid="+category_id+"page="+page_no+"Con="+Constant.CATEGORY_LIMIT);
-        Call<List<NewsListModel>> noticeList = RetrofitAPI.getService().getCategoryLimitNews(category_id,page_no*10, Constant.CATEGORY_LIMIT);
-        noticeList.enqueue(new Callback<List<NewsListModel>>() {
+        Call<List<AudioModel>> noticeList = RetrofitAPI.getService().getAudioList("audio",page_no*10, Constant.CATEGORY_LIMIT);
+        noticeList.enqueue(new Callback<List<AudioModel>>() {
             @Override
-            public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
-                *//*swipeProgress(false);
+            public void onResponse(Call<List<AudioModel>> call, Response<List<AudioModel>> response) {
+                /*swipeProgress(false);
                 Log.i("Bxx", "fet = " + response.body().size());
                 list.addAll(response.body());
-                for(NewsListModel data: response.body()){
+                for(AudioModel data: response.body()){
                     Log.i("postdata1","v ="+data.getPostTitle());
                 }
 
-                mAdapter.notifyDataSetChanged();*//*
+                mAdapter.notifyDataSetChanged();*/
 
 
                 swipeProgress(false);
-                List<NewsListModel> resp = response.body();
+                List<AudioModel> resp = response.body();
                 if (resp != null) {
                     displayApiResult(response.body());
                     Log.i("checkx","ayo");
-                   *//* list.addAll(response.body());
-                    mAdapter.notifyDataSetChanged();*//*
+                   /* list.addAll(response.body());
+                    mAdapter.notifyDataSetChanged();*/
                 } else {
                     showNoItemView(true);
                 }
@@ -251,14 +249,13 @@ public class CategoryDetail extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<NewsListModel>> call, Throwable throwable) {
+            public void onFailure(Call<List<AudioModel>> call, Throwable throwable) {
                 Log.i("postdata2","v =comedy");
             }
         });
 
-    }*/
-
-    private void displayApiResult(final List<NewsListModel> posts) {
+    }
+    private void displayApiResult(final List<AudioModel> posts) {
 
         mAdapter.insertData(posts);
     }

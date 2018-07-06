@@ -81,6 +81,7 @@
                     android:textColor="@color/grey_hard"
                     android:textStyle="bold" />
 
+
                 <ImageView
 
                     android:layout_width="@dimen/spacing_mxlarge"
@@ -90,20 +91,11 @@
                     android:tint="@color/grey_hard"
                     app:srcCompat="@drawable/thumb_up" />
             </LinearLayout>
-
-
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/grey_bg" />
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginTop="@dimen/spacing_large"
             android:background="@color/grey_bg" />
 
         <TextView

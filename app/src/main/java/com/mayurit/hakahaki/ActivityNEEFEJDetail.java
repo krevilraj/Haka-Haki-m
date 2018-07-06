@@ -8,14 +8,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,20 +23,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.mayurit.hakahaki.Adapters.CategoryNewsListAdapter;
-import com.mayurit.hakahaki.Helpers.Constant;
-import com.mayurit.hakahaki.Helpers.RecyclerItemClickListener;
 import com.mayurit.hakahaki.Helpers.RetrofitAPI;
 import com.mayurit.hakahaki.Model.NewsListModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityPostDetail extends AppCompatActivity {
+public class ActivityNEEFEJDetail extends AppCompatActivity {
 
     public static final String EXTRA_OBJC = "key.EXTRA_OBJC";
 
@@ -81,7 +69,7 @@ public class ActivityPostDetail extends AppCompatActivity {
         if (item_id == android.R.id.home) {
             onBackPressed();
         } else if (item_id == R.id.action_share) {
-            methodShare(ActivityPostDetail.this, post);
+            methodShare(ActivityNEEFEJDetail.this, post);
         }  else if (item_id == R.id.action_browser) {
 //            directLinkToBrowser(this, post.url);
             Toast.makeText(this, "link to browser", Toast.LENGTH_SHORT).show();
@@ -123,7 +111,7 @@ public class ActivityPostDetail extends AppCompatActivity {
     public void fetchData() {
 
 //        Call<List<NewsListModel>> noticeList = RetrofitAPI.getService().getPostDetail("7300");
-        Call<NewsListModel> noticeList = RetrofitAPI.getService().getPostDetail(post.getID());
+        Call<NewsListModel> noticeList = RetrofitAPI.getService().getNEEFEJDetail("nefej",post.getID());
         noticeList.enqueue(new Callback<NewsListModel>() {
             @Override
             public void onResponse(Call<NewsListModel> call, Response<NewsListModel> response) {
@@ -141,7 +129,7 @@ public class ActivityPostDetail extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<NewsListModel> call, Throwable throwable) {
-                Toast.makeText(ActivityPostDetail.this, "Failed to load", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityNEEFEJDetail.this, "Failed to load", Toast.LENGTH_SHORT).show();
             }
         });
 
