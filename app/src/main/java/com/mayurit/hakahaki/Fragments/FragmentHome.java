@@ -31,6 +31,7 @@ import com.mayurit.hakahaki.Helpers.Constant;
 import com.mayurit.hakahaki.Helpers.DatabaseHelper;
 import com.mayurit.hakahaki.Helpers.RetrofitAPI;
 import com.mayurit.hakahaki.Model.NewsListModel;
+
 import com.mayurit.hakahaki.NEEFEJDetail;
 import com.mayurit.hakahaki.ProjectDetail;
 

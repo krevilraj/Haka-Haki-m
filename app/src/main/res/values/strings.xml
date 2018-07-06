@@ -15,6 +15,10 @@
     <string name="category">Category</string>
     <string name="rate_us">Rate Us</string>
     <string name="home">Home</string>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7211669d1d109086c9c380f93f90491c18bb7d77
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
