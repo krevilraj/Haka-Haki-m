@@ -27,18 +27,17 @@
         </activity>
         <activity android:name=".CategoryDetail" />
         <activity android:name=".ActivityPostDetail" />
-        <activity android:name=".PostDetail"/>
+        <activity android:name=".PostDetail" />
+        <activity android:name=".AudioActivity" />
+        <activity android:name=".AudioDetail" />
+        <activity android:name=".VideoDetail" />
+        <activity android:name=".ProjectDetail" />
+        <activity android:name=".ActivityProjectDetail" />
+        <activity android:name=".NEEFEJDetail" />
+        <activity android:name=".ActivityNEEFEJDetail" />
+        <activity android:name=".Model.Videoplay">
 
-        <activity android:name=".AudioActivity"/>
-        <activity android:name=".AudioDetail"/>
-
-        <activity android:name=".VideoActivity"/>
-        <activity android:name=".VideoDetail"/>
-        <activity android:name=".ProjectDetail"/>
-        <activity android:name=".ActivityProjectDetail"/>
-        <activity android:name=".NEEFEJDetail"/>
-        <activity android:name=".ActivityNEEFEJDetail"/>
-
+        </activity>
     </application>
 
 </manifest>

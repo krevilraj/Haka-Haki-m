@@ -23,6 +23,7 @@ import com.mayurit.hakahaki.Helpers.Constant;
 import com.mayurit.hakahaki.Helpers.RecyclerItemClickListener;
 import com.mayurit.hakahaki.Helpers.RetrofitAPI;
 import com.mayurit.hakahaki.Model.VideoModel;
+import com.mayurit.hakahaki.Model.Videoplay;
 
 
 import java.io.Serializable;
@@ -88,7 +89,8 @@ public class VideoDetail extends AppCompatActivity {
 
                         VideoModel singleItem = list.get(position);
                         Toast.makeText(VideoDetail.this, "categ = "+singleItem.getID(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(VideoDetail.this, VideoActivity.class);
+                        Intent intent = new Intent(VideoDetail.this, Videoplay.class);
+                        singleItem.setYoutube_id("KJAjqR0xbuI");
                         intent.putExtra(EXTRA_OBJC, (Serializable) singleItem);
                         startActivity(intent);
 
