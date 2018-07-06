@@ -33,7 +33,7 @@ import static com.mayurit.hakahaki.AudioDetail.EXTRA_OBJC;
 public class AudioActivity extends AppCompatActivity {
 
     String post_id;
-    ImageButton btnplay;
+    ImageButton btnplay, btnpause;
     private MediaPlayer mediaPlayer;
     private boolean playPause;
     TextView audio_title, audio_description, audio_date;
@@ -54,34 +54,31 @@ public class AudioActivity extends AppCompatActivity {
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         btnplay = findViewById(R.id.btnplay);
-      /*  btnplay.setOnClickListener(new View.OnClickListener() {
+        btnplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(AudioActivity.this, "Play", Toast.LENGTH_SHORT).show();
                 if (!playPause) {
-                    Toast.makeText(AudioActivity.this, "Pause", Toast.LENGTH_SHORT).show();
-
+                        btnplay.setImageResource(R.drawable.ic_pause);
                     if (initialStage) {
                         new Player().execute("https://www.ssaurel.com/tmp/mymusic.mp3");
                     } else {
                         if (!mediaPlayer.isPlaying())
                             mediaPlayer.start();
                     }
-
                     playPause = true;
 
                 } else {
-                    Toast.makeText(AudioActivity.this, "playing", Toast.LENGTH_SHORT).show();
-
                     if (mediaPlayer.isPlaying()) {
                         mediaPlayer.pause();
+                        btnplay.setImageResource(R.drawable.ic_play);
                     }
 
                     playPause = false;
                 }
-
             }
         });
+     displayAudioDetail();
+        fetchData();
     }
 
     @Override
@@ -107,6 +104,7 @@ public class AudioActivity extends AppCompatActivity {
                     public void onCompletion(MediaPlayer mediaPlayer) {
                         initialStage = true;
                         playPause = false;
+                        btnplay.setImageResource(R.drawable.ic_play);
                         mediaPlayer.stop();
                         mediaPlayer.reset();
                     }
@@ -116,19 +114,28 @@ public class AudioActivity extends AppCompatActivity {
                 prepared = true;
 
             } catch (Exception e) {
-                Log.e("MyAudioStreamingApp", e.getMessage());
+                Log.e("MyAudioStreamingApp",e.getMessage());
                 prepared = false;
             }
 
             return prepared;
         }
 
-*/
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
 
-        displayAudioDetail();
-        fetchData();
+            mediaPlayer.start();
+            initialStage = false;
+        }
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
     }
+
+
     public void fetchData() {
 
         Call<AudioModel> noticeList = RetrofitAPI.getService().getAudioDetail("audio",post.getID());
@@ -155,7 +162,6 @@ public class AudioActivity extends AppCompatActivity {
     private void displayAudioDetail(){
         audio_title.setText(post.getPostTitle());
         audio_date.setText(post.getPostDate());
-        Toast.makeText(this, "test" +post.getPostContent(), Toast.LENGTH_SHORT).show();
         audio_description.setText(post.getPostContent());
 
     }

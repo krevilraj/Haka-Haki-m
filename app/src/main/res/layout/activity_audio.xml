@@ -30,13 +30,7 @@
                 android:src="@drawable/messi"
                 app:layout_collapseMode="parallax" />
 
-            <android.support.v7.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/AlertDialog.AppCompat.Light">
 
-            </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -88,6 +82,15 @@
                         android:scaleType="centerCrop"
                         app:srcCompat="@drawable/ic_play" />
 
+     <ImageButton
+                        android:id="@+id/btnpause"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/circle"
+                        android:padding="10dp" android:visibility="gone"
+                        android:scaleType="centerCrop"
+                        app:srcCompat="@drawable/ic_pause" />
+
 
                 </LinearLayout>
 
@@ -135,16 +138,6 @@
                         android:textSize="14sp" />
 
                     <!-- Optional parameter animation_duration: sets the duration of the expand animation -->
-
-                    <ImageButton
-                        android:id="@+id/button_toggle"
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
-                        android:background="#ffffff"
-
-                        android:tint="@color/grey_hard"
-                        app:srcCompat="@drawable/ic_arrow_down" />
-
 
                 </LinearLayout>
 
