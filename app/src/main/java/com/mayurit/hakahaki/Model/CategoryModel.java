@@ -3,7 +3,7 @@ package com.mayurit.hakahaki.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CategoryModel {
+public class CategoryModel  {
 
     @SerializedName("id")
     @Expose

@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.mayurit.hakahaki.Helpers.Constant;
-import com.mayurit.hakahaki.Model.NewsListModel;
+import com.mayurit.hakahaki.Model.VideoModel;
 import com.mayurit.hakahaki.R;
 
 
@@ -26,7 +26,7 @@ import java.util.List;
  */
 
 public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<NewsListModel> mList;
+    private List<VideoModel> mList;
     Context context;
 
     private final int VIEW_ITEM = 1;
@@ -37,11 +37,11 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private Context ctx;
     int holderPosition = 0;
     private SparseBooleanArray itemStateArray = new SparseBooleanArray();
-    public VideoListAdapter(List<NewsListModel> mList) {
+    public VideoListAdapter(List<VideoModel> mList) {
         this.mList = mList;
     }
 
-    public VideoListAdapter(Context context, List<NewsListModel> mList, RecyclerView view) {
+    public VideoListAdapter(Context context, List<VideoModel> mList, RecyclerView view) {
         this.mList = mList;
         ctx = context;
         lastItemViewDetector(view);
@@ -50,7 +50,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
-        void onItemClick(View view, NewsListModel obj, int position);
+        void onItemClick(View view, VideoModel obj, int position);
     }
 
     public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
@@ -84,12 +84,13 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder1, final int position) {
         if (holder1 instanceof OriginalViewHolder) {
-            final NewsListModel mData = mList.get(position);
+            final VideoModel mData = mList.get(position);
             final OriginalViewHolder holder = (OriginalViewHolder) holder1;
 
             holder.video_title.setText(mData.getPostTitle());
             holder.video_description.setText(mData.getPostExcerpt());
-            if(!mData.getImageId().equals("")){
+            holder.video_date.setText(mData.getPostDate());
+            if(!(mData.getImageId()==null)){
                 holder.video_img.setVisibility(View.INVISIBLE);
                 Glide.with(ctx).load(mData.getImageId()).into(holder.video_img);
             }
@@ -100,19 +101,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
         holderPosition++;
     }
-    /*@Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        final NewsListModel mData = mList.get(position);
-        holder.mTitle.setText(mData.getPostTitle());
-        holder.mDescription.setText(mData.getPostExcerpt());
-        holder.mDate.setText(mData.getPostDate());
-        if(!mData.getImageId().equals("")){
-            holder.mAltImage.setVisibility(View.INVISIBLE);
-            Glide.with(context).load(mData.getImageId()).into(holder.mThumbImage);
-        }
-
-    }*/
-
     @Override
     public int getItemCount() {
         return mList.size();
@@ -123,7 +111,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return this.mList.get(position) != null ? VIEW_ITEM : VIEW_PROG;
     }
 
-    public void insertData(List<NewsListModel> items) {
+    public void insertData(List<VideoModel> items) {
         setLoaded();
         int positionStart = getItemCount();
         int itemCount = items.size();
@@ -150,7 +138,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
-    public void setListData(List<NewsListModel> items){
+    public void setListData(List<VideoModel> items){
         this.mList = items;
         notifyDataSetChanged();
     }
@@ -162,7 +150,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView video_title,video_description;
+        public TextView video_title,video_description,video_date;
         public ImageView video_img;
 
 
@@ -172,12 +160,13 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             video_title = (TextView) view.findViewById(R.id.video_title);
             video_description = (TextView) view.findViewById(R.id.video_description);
             video_img = (ImageView) view.findViewById(R.id.video_img);
+                     video_date=view.findViewById(R.id.video_date);
 
         }
 
     }
 
-    public void setFilter(List<NewsListModel> fModels) {
+    public void setFilter(List<VideoModel> fModels) {
         mList = new ArrayList<>();
         mList.addAll(fModels);
         notifyDataSetChanged();

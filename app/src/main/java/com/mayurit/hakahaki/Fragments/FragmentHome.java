@@ -32,6 +32,7 @@ import com.mayurit.hakahaki.Helpers.RecyclerItemClickListener;
 import com.mayurit.hakahaki.Helpers.RetrofitAPI;
 import com.mayurit.hakahaki.Model.CategoryModel;
 import com.mayurit.hakahaki.Model.NewsListModel;
+
 import com.mayurit.hakahaki.R;
 import com.mayurit.hakahaki.VideoActivity;
 import com.mayurit.hakahaki.VideoDetail;
