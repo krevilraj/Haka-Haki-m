@@ -8,13 +8,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -29,27 +24,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.mayurit.hakahaki.Adapters.CategoryNewsListAdapter;
-import com.mayurit.hakahaki.Helpers.Constant;
-import com.mayurit.hakahaki.Helpers.RecyclerItemClickListener;
 import com.mayurit.hakahaki.Helpers.RetrofitAPI;
-import com.mayurit.hakahaki.Model.NewsListModel;
+import com.mayurit.hakahaki.Model.ProjectModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityPostDetail extends AppCompatActivity {
+public class ActivityProjectDetail extends AppCompatActivity {
 
     public static final String EXTRA_OBJC = "key.EXTRA_OBJC";
 
     int page_no;
     RelativeLayout rel_container;
     String post_id;
-    NewsListModel post;
+    ProjectModel post;
 
     TextView txt_title,txt_date,txt_like_count;
     ImageView img_full;
@@ -60,7 +51,10 @@ public class ActivityPostDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
         Intent intent = getIntent();
-        post = (NewsListModel) getIntent().getSerializableExtra(EXTRA_OBJC);
+        post = (ProjectModel) getIntent().getSerializableExtra(EXTRA_OBJC);
+
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         Log.i("postdatax1",post.getPostTitle());
         rel_container = (RelativeLayout) findViewById(R.id.rel_container);
@@ -81,7 +75,7 @@ public class ActivityPostDetail extends AppCompatActivity {
         if (item_id == android.R.id.home) {
             onBackPressed();
         } else if (item_id == R.id.action_share) {
-            methodShare(ActivityPostDetail.this, post);
+            methodShare(ActivityProjectDetail.this, post);
         }  else if (item_id == R.id.action_browser) {
 //            directLinkToBrowser(this, post.url);
             Toast.makeText(this, "link to browser", Toast.LENGTH_SHORT).show();
@@ -122,15 +116,15 @@ public class ActivityPostDetail extends AppCompatActivity {
 
     public void fetchData() {
 
-//        Call<List<NewsListModel>> noticeList = RetrofitAPI.getService().getPostDetail("7300");
-        Call<NewsListModel> noticeList = RetrofitAPI.getService().getPostDetail(post.getID());
-        noticeList.enqueue(new Callback<NewsListModel>() {
+//        Call<List<ProjectModel>> noticeList = RetrofitAPI.getService().getPostDetail("7300");
+        Call<List<ProjectModel>> noticeList = RetrofitAPI.getService().getProjectDetail(post.getID());
+        noticeList.enqueue(new Callback<List<ProjectModel>>() {
             @Override
-            public void onResponse(Call<NewsListModel> call, Response<NewsListModel> response) {
+            public void onResponse(Call<List<ProjectModel>> call, Response<List<ProjectModel>> response) {
 
-                NewsListModel resp = response.body();
+                List<ProjectModel> resp = response.body();
                 if (resp != null) {
-                    displayResult(resp);
+                    displayResult(resp.get(0));
 
                 } else {
                     showNoItemView(true);
@@ -140,13 +134,13 @@ public class ActivityPostDetail extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<NewsListModel> call, Throwable throwable) {
-                Toast.makeText(ActivityPostDetail.this, "Failed to load", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<List<ProjectModel>> call, Throwable throwable) {
+                Toast.makeText(ActivityProjectDetail.this, "Failed to load", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
-    private void displayApiResult(NewsListModel posts) {
+    private void displayApiResult(ProjectModel posts) {
         txt_title.setText(posts.getPostTitle());
         txt_date.setText(posts.getPostDate());
 
@@ -155,12 +149,12 @@ public class ActivityPostDetail extends AppCompatActivity {
         if(posts.getLikeCount()==null){
             txt_like_count.setText("");
         }
-        web_description.loadData(posts.getPostExcerpt(),"text/html; charset=utf-8","utf-8");
+//        web_description.loadData(posts.getPostExcerpt(),"text/html; charset=utf-8","utf-8");
         Glide.with(getApplicationContext()).load(posts.getImageId()).into(img_full);
     }
 
 
-    private void displayResult(NewsListModel posts) {
+    private void displayResult(ProjectModel posts) {
         txt_title.setText(posts.getPostTitle());
         txt_date.setText(posts.getPostDate());
 
@@ -170,7 +164,7 @@ public class ActivityPostDetail extends AppCompatActivity {
             txt_like_count.setText("");
         }
 
-        String html_data = "<style>img{max-width:100%;height:auto; margin-bottom:10px;} iframe{width:100%;}</style> ";
+       /* String html_data = "<style>img{max-width:100%;height:auto; margin-bottom:10px;} iframe{width:100%;}</style> ";
         html_data += posts.getPostContent();
         web_description.getSettings().setJavaScriptEnabled(true);
         web_description.getSettings();
@@ -184,7 +178,7 @@ public class ActivityPostDetail extends AppCompatActivity {
                 return (event.getAction() == MotionEvent.ACTION_MOVE);
             }
         });
-
+*/
         Glide.with(getApplicationContext()).load(posts.getImageId()).into(img_full);
     }
 
@@ -207,7 +201,7 @@ public class ActivityPostDetail extends AppCompatActivity {
         }
     }
 
-    public static void methodShare(Activity act, NewsListModel p) {
+    public static void methodShare(Activity act, ProjectModel p) {
         Uri uri = Uri.parse(p.getImageId());
 
         // string to share

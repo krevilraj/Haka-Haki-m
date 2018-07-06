@@ -131,7 +131,7 @@ public class CategoryDetail extends AppCompatActivity {
                 }
             }
         });
-        netCheck1();
+        requestAction();
 
     }
 
@@ -173,7 +173,7 @@ public class CategoryDetail extends AppCompatActivity {
 
     }
 
-    public void netCheck1() {
+    /*public void netCheck1() {
 
         ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
@@ -194,7 +194,7 @@ public class CategoryDetail extends AppCompatActivity {
             snackbar.show();
         }
 
-    }
+    }*/
 
 
     public void fetchData() {
@@ -221,20 +221,20 @@ public class CategoryDetail extends AppCompatActivity {
         });
 
     }
-    public void fetchData1() {
+    /*public void fetchData1() {
         Log.i("Bxx1","categoryid="+category_id+"page="+page_no+"Con="+Constant.CATEGORY_LIMIT);
         Call<List<NewsListModel>> noticeList = RetrofitAPI.getService().getCategoryLimitNews(category_id,page_no*10, Constant.CATEGORY_LIMIT);
         noticeList.enqueue(new Callback<List<NewsListModel>>() {
             @Override
             public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
-                /*swipeProgress(false);
+                *//*swipeProgress(false);
                 Log.i("Bxx", "fet = " + response.body().size());
                 list.addAll(response.body());
                 for(NewsListModel data: response.body()){
                     Log.i("postdata1","v ="+data.getPostTitle());
                 }
 
-                mAdapter.notifyDataSetChanged();*/
+                mAdapter.notifyDataSetChanged();*//*
 
 
                 swipeProgress(false);
@@ -242,8 +242,8 @@ public class CategoryDetail extends AppCompatActivity {
                 if (resp != null) {
                     displayApiResult(response.body());
                     Log.i("checkx","ayo");
-                   /* list.addAll(response.body());
-                    mAdapter.notifyDataSetChanged();*/
+                   *//* list.addAll(response.body());
+                    mAdapter.notifyDataSetChanged();*//*
                 } else {
                     showNoItemView(true);
                 }
@@ -256,7 +256,8 @@ public class CategoryDetail extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
+
     private void displayApiResult(final List<NewsListModel> posts) {
 
         mAdapter.insertData(posts);

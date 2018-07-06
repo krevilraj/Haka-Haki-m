@@ -14,9 +14,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.mayurit.hakahaki.Helpers.Constant;
-import com.mayurit.hakahaki.Model.VideoModel;
+import com.mayurit.hakahaki.Model.ProjectModel;
 import com.mayurit.hakahaki.R;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +24,8 @@ import java.util.List;
  * Created by Krevilraj on 2/25/2018.
  */
 
-public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<VideoModel> mList;
+public class ProjectListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private List<ProjectModel> mList;
     Context context;
 
     private final int VIEW_ITEM = 1;
@@ -37,11 +36,11 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private Context ctx;
     int holderPosition = 0;
     private SparseBooleanArray itemStateArray = new SparseBooleanArray();
-    public VideoListAdapter(List<VideoModel> mList) {
+    public ProjectListAdapter(List<ProjectModel> mList) {
         this.mList = mList;
     }
 
-    public VideoListAdapter(Context context, List<VideoModel> mList, RecyclerView view) {
+    public ProjectListAdapter(Context context, List<ProjectModel> mList, RecyclerView view) {
         this.mList = mList;
         ctx = context;
         lastItemViewDetector(view);
@@ -50,7 +49,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
-        void onItemClick(View view, VideoModel obj, int position);
+        void onItemClick(View view, ProjectModel obj, int position);
     }
 
     public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
@@ -62,7 +61,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         RecyclerView.ViewHolder vh;
         if (viewType == VIEW_ITEM) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.video_listing, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_category_news, parent, false);
             vh = new OriginalViewHolder(v);
         } else {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_loading, parent, false);
@@ -84,15 +83,15 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder1, final int position) {
         if (holder1 instanceof OriginalViewHolder) {
-            final VideoModel mData = mList.get(position);
+            final ProjectModel mData = mList.get(position);
             final OriginalViewHolder holder = (OriginalViewHolder) holder1;
 
-            holder.video_title.setText(mData.getPostTitle());
-            holder.video_description.setText(mData.getPostExcerpt());
-            holder.video_date.setText(mData.getPostDate());
-            if(!(mData.getImageId()==null)){
-                holder.video_img.setVisibility(View.INVISIBLE);
-                Glide.with(ctx).load(mData.getImageId()).into(holder.video_img);
+            holder.mTitle.setText(mData.getPostTitle());
+//            holder.mDescription.setText(mData.getPostTitle());
+            holder.mDate.setText(mData.getPostDate());
+            if(!mData.getImageId().equals("")){
+                holder.mAltImage.setVisibility(View.INVISIBLE);
+                Glide.with(ctx).load(mData.getImageId()).into(holder.mThumbImage);
             }
 
 
@@ -101,6 +100,19 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
         holderPosition++;
     }
+    /*@Override
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        final ProjectModel mData = mList.get(position);
+        holder.mTitle.setText(mData.getPostTitle());
+        holder.mDescription.setText(mData.getPostExcerpt());
+        holder.mDate.setText(mData.getPostDate());
+        if(!mData.getImageId().equals("")){
+            holder.mAltImage.setVisibility(View.INVISIBLE);
+            Glide.with(context).load(mData.getImageId()).into(holder.mThumbImage);
+        }
+
+    }*/
+
     @Override
     public int getItemCount() {
         return mList.size();
@@ -111,7 +123,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return this.mList.get(position) != null ? VIEW_ITEM : VIEW_PROG;
     }
 
-    public void insertData(List<VideoModel> items) {
+    public void insertData(List<ProjectModel> items) {
         setLoaded();
         int positionStart = getItemCount();
         int itemCount = items.size();
@@ -138,7 +150,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
-    public void setListData(List<VideoModel> items){
+    public void setListData(List<ProjectModel> items){
         this.mList = items;
         notifyDataSetChanged();
     }
@@ -150,23 +162,23 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView video_title,video_description,video_date;
-        public ImageView video_img;
+        public TextView mTitle,mDescription,mDate;
+        public ImageView mAltImage, mThumbImage;
 
 
         public OriginalViewHolder(View view) {
             super(view);
 
-            video_title = (TextView) view.findViewById(R.id.video_title);
-            video_description = (TextView) view.findViewById(R.id.video_description);
-            video_img = (ImageView) view.findViewById(R.id.video_img);
-                     video_date=view.findViewById(R.id.video_date);
-
+            mTitle = (TextView) view.findViewById(R.id.txt_title);
+            mDescription = (TextView) view.findViewById(R.id.txt_description);
+            mDate = (TextView) view.findViewById(R.id.txt_date);
+            mAltImage = (ImageView) view.findViewById(R.id.img_alt_thumb);
+            mThumbImage = (ImageView) view.findViewById(R.id.img_thumb);
         }
 
     }
 
-    public void setFilter(List<VideoModel> fModels) {
+    public void setFilter(List<ProjectModel> fModels) {
         mList = new ArrayList<>();
         mList.addAll(fModels);
         notifyDataSetChanged();

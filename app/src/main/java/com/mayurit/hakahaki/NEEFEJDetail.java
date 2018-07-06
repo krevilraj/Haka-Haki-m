@@ -18,12 +18,14 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.mayurit.hakahaki.Adapters.VideoListAdapter;
+
+import com.mayurit.hakahaki.Adapters.CategoryNewsListAdapter;
+import com.mayurit.hakahaki.Adapters.CategoryNewsListAdapter;
 import com.mayurit.hakahaki.Helpers.Constant;
 import com.mayurit.hakahaki.Helpers.RecyclerItemClickListener;
 import com.mayurit.hakahaki.Helpers.RetrofitAPI;
-import com.mayurit.hakahaki.Model.VideoModel;
-
+import com.mayurit.hakahaki.Model.NewsListModel;
+import com.mayurit.hakahaki.Model.NewsListModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,22 +35,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class VideoDetail extends AppCompatActivity {
+public class NEEFEJDetail extends AppCompatActivity {
 
     public static final String EXTRA_OBJC = "key.EXTRA_OBJC";
 
-    public static final int DIALOG_DOWNLOAD_PROGRESS = 0;
-    private static final int PERMISSION_REQUEST_CODE = 23;
-
     int page_no;
     int totalRowsCategeory = Constant.CATEGORY_LIMIT;
-    ArrayList<VideoModel> list = new ArrayList<>();
+    ArrayList<NewsListModel> list = new ArrayList<>();
     private RecyclerView recyclerView;
     RelativeLayout rel_container;
     int category_id;
     SwipeRefreshLayout swipe_refresh;
 
-    VideoListAdapter mAdapter;
+    CategoryNewsListAdapter mAdapter;
 
 
     @Override
@@ -57,8 +56,8 @@ public class VideoDetail extends AppCompatActivity {
         setContentView(R.layout.activity_category_list);
         swipe_refresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout_category);
         Intent intent = getIntent();
-        category_id= intent.getExtras().getInt("category_id");
-        Toast.makeText(this, "categ = "+category_id, Toast.LENGTH_SHORT).show();
+//        category_id= intent.getExtras().getInt("category_id");
+//        Toast.makeText(this, "categ = "+category_id, Toast.LENGTH_SHORT).show();
         rel_container = (RelativeLayout) findViewById(R.id.rel_container);
         swipeProgress(true);
         swipe_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -78,7 +77,7 @@ public class VideoDetail extends AppCompatActivity {
         recyclerView.setFocusable(false);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new VideoListAdapter(this, list, recyclerView);
+        mAdapter = new CategoryNewsListAdapter(this, list, recyclerView);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.addOnItemTouchListener(
@@ -86,9 +85,10 @@ public class VideoDetail extends AppCompatActivity {
                     @Override
                     public void onItemClick(View view, int position) {
 
-                        VideoModel singleItem = list.get(position);
-                        Toast.makeText(VideoDetail.this, "categ = "+singleItem.getID(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(VideoDetail.this, VideoActivity.class);
+                        NewsListModel singleItem = list.get(position);
+                        Toast.makeText(NEEFEJDetail.this, "categ = " + singleItem.getID(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(NEEFEJDetail.this, ActivityPostDetail.class);
+//                        intent.putExtra("post_id",singleItem.getID());
                         intent.putExtra(EXTRA_OBJC, (Serializable) singleItem);
                         startActivity(intent);
 
@@ -100,7 +100,7 @@ public class VideoDetail extends AppCompatActivity {
                     }
                 })
         );
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 int topRowVerticalPosition =
@@ -118,7 +118,7 @@ public class VideoDetail extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         // detect when scroll reach bottom
-        mAdapter.setOnLoadMoreListener(new VideoListAdapter.OnLoadMoreListener() {
+        mAdapter.setOnLoadMoreListener(new CategoryNewsListAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore(int current_page) {
                 totalRowsCategeory += Constant.CATEGORY_LIMIT;
@@ -131,7 +131,7 @@ public class VideoDetail extends AppCompatActivity {
                 }
             }
         });
-        netCheck1();
+        requestAction();
 
     }
 
@@ -173,41 +173,17 @@ public class VideoDetail extends AppCompatActivity {
 
     }
 
-    public void netCheck1() {
-
-        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        if (activeNetwork != null) { // connected to the internet
-            fetchData1();
-        } else {
-            Snackbar snackbar = Snackbar.make(rel_container, "No internet connection!", Snackbar.LENGTH_INDEFINITE).setAction("RETRY", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    netCheck1();
-                }
-            });
-            snackbar.setActionTextColor(Color.RED);
-
-            View sbView = snackbar.getView();
-            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-            textView.setTextColor(Color.YELLOW);
-            snackbar.show();
-        }
-
-    }
-
-
     public void fetchData() {
-       Log.i("Bxx","categoryid="+category_id+"page="+page_no+"Con="+Constant.CATEGORY_LIMIT);
+        Log.i("Bxx", "categoryid=" + category_id + "page=" + page_no + "Con=" + Constant.CATEGORY_LIMIT);
 
-        Call<List<VideoModel>> noticeList = RetrofitAPI.getService().getVideoList("video",page_no*10, Constant.CATEGORY_LIMIT);
-        noticeList.enqueue(new Callback<List<VideoModel>>() {
+        Call<List<NewsListModel>> noticeList = RetrofitAPI.getService().getNEEFEJList("nefej", page_no * 10, Constant.CATEGORY_LIMIT);
+        noticeList.enqueue(new Callback<List<NewsListModel>>() {
             @Override
-            public void onResponse(Call<List<VideoModel>> call, Response<List<VideoModel>> response) {
+            public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
                 swipeProgress(false);
                 Log.i("Bxx", "fetc = " + page_no);
-                for(VideoModel data: response.body()){
-                    Log.i("postdata","v ="+data.getID());
+                for (NewsListModel data : response.body()) {
+                    Log.i("postdata", "v =" + data.getID());
                 }
                 displayApiResult(response.body());
                 mAdapter.notifyDataSetChanged();
@@ -215,40 +191,15 @@ public class VideoDetail extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<VideoModel>> call, Throwable throwable) {
-                Toast.makeText(VideoDetail.this, "Failed to load", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<List<NewsListModel>> call, Throwable throwable) {
+                Toast.makeText(NEEFEJDetail.this, "Failed to load", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
-    public void fetchData1() {
-        Log.i("Bxx1","categoryid="+category_id+"page="+page_no+"Con="+Constant.CATEGORY_LIMIT);
-        Call<List<VideoModel>> noticeList = RetrofitAPI.getService().getVideoList("video",page_no*10, Constant.CATEGORY_LIMIT);
-        noticeList.enqueue(new Callback<List<VideoModel>>() {
-            @Override
-            public void onResponse(Call<List<VideoModel>> call, Response<List<VideoModel>> response) {
 
-                swipeProgress(false);
-                List<VideoModel> resp = response.body();
-                if (resp != null) {
-                    displayApiResult(response.body());
-                    Log.i("checkx","ayo");
-                   /* list.addAll(response.body());
-                    mAdapter.notifyDataSetChanged();*/
-                } else {
-                    showNoItemView(true);
-                }
 
-            }
-
-            @Override
-            public void onFailure(Call<List<VideoModel>> call, Throwable throwable) {
-                Log.i("postdata2","v =comedy");
-            }
-        });
-
-    }
-    private void displayApiResult(final List<VideoModel> posts) {
+    private void displayApiResult(final List<NewsListModel> posts) {
 
         mAdapter.insertData(posts);
     }
