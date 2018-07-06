@@ -5,12 +5,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,10 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mayurit.hakahaki.Adapters.CategoryNewsListAdapter;
+import com.mayurit.hakahaki.Adapters.CategoryNewsListAdapter;
 import com.mayurit.hakahaki.Helpers.Constant;
 import com.mayurit.hakahaki.Helpers.RecyclerItemClickListener;
 import com.mayurit.hakahaki.Helpers.RetrofitAPI;
-import com.mayurit.hakahaki.Model.CategoryModel;
+import com.mayurit.hakahaki.Model.NewsListModel;
 import com.mayurit.hakahaki.Model.NewsListModel;
 
 import java.io.Serializable;
@@ -35,7 +35,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CategoryDetail extends AppCompatActivity {
+public class NEEFEJDetail extends AppCompatActivity {
 
     public static final String EXTRA_OBJC = "key.EXTRA_OBJC";
 
@@ -56,8 +56,8 @@ public class CategoryDetail extends AppCompatActivity {
         setContentView(R.layout.activity_category_list);
         swipe_refresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout_category);
         Intent intent = getIntent();
-        category_id= intent.getExtras().getInt("category_id");
-        Toast.makeText(this, "categ = "+category_id, Toast.LENGTH_SHORT).show();
+//        category_id= intent.getExtras().getInt("category_id");
+//        Toast.makeText(this, "categ = "+category_id, Toast.LENGTH_SHORT).show();
         rel_container = (RelativeLayout) findViewById(R.id.rel_container);
         swipeProgress(true);
         swipe_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -86,9 +86,9 @@ public class CategoryDetail extends AppCompatActivity {
                     public void onItemClick(View view, int position) {
 
                         NewsListModel singleItem = list.get(position);
-                        Toast.makeText(CategoryDetail.this, "categ = "+singleItem.getID(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(CategoryDetail.this, ActivityPostDetail.class);
-//                        intent.putExtra("post_id",singleItem.getID());
+                        Toast.makeText(NEEFEJDetail.this, "categ = " + singleItem.getID(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(NEEFEJDetail.this, ActivityPostDetail.class);
+                        intent.putExtra("post_id",singleItem.getID());
                         intent.putExtra(EXTRA_OBJC, (Serializable) singleItem);
                         startActivity(intent);
 
@@ -100,7 +100,7 @@ public class CategoryDetail extends AppCompatActivity {
                     }
                 })
         );
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 int topRowVerticalPosition =
@@ -173,41 +173,17 @@ public class CategoryDetail extends AppCompatActivity {
 
     }
 
-    /*public void netCheck1() {
-
-        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        if (activeNetwork != null) { // connected to the internet
-            fetchData1();
-        } else {
-            Snackbar snackbar = Snackbar.make(rel_container, "No internet connection!", Snackbar.LENGTH_INDEFINITE).setAction("RETRY", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    netCheck1();
-                }
-            });
-            snackbar.setActionTextColor(Color.RED);
-
-            View sbView = snackbar.getView();
-            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-            textView.setTextColor(Color.YELLOW);
-            snackbar.show();
-        }
-
-    }*/
-
-
     public void fetchData() {
-       Log.i("Bxx","categoryid="+category_id+"page="+page_no+"Con="+Constant.CATEGORY_LIMIT);
+        Log.i("Bxx", "categoryid=" + category_id + "page=" + page_no + "Con=" + Constant.CATEGORY_LIMIT);
 
-        Call<List<NewsListModel>> noticeList = RetrofitAPI.getService().getCategoryLimitNews(category_id,page_no*10, Constant.CATEGORY_LIMIT);
+        Call<List<NewsListModel>> noticeList = RetrofitAPI.getService().getNEEFEJList("nefej", page_no * 10, Constant.CATEGORY_LIMIT);
         noticeList.enqueue(new Callback<List<NewsListModel>>() {
             @Override
             public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
                 swipeProgress(false);
                 Log.i("Bxx", "fetc = " + page_no);
-                for(NewsListModel data: response.body()){
-                    Log.i("postdata","v ="+data.getID());
+                for (NewsListModel data : response.body()) {
+                    Log.i("postdata", "v =" + data.getID());
                 }
                 displayApiResult(response.body());
                 mAdapter.notifyDataSetChanged();
@@ -216,47 +192,12 @@ public class CategoryDetail extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<NewsListModel>> call, Throwable throwable) {
-                Toast.makeText(CategoryDetail.this, "Failed to load", Toast.LENGTH_SHORT).show();
+                Toast.makeText(NEEFEJDetail.this, "Failed to load", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
-    /*public void fetchData1() {
-        Log.i("Bxx1","categoryid="+category_id+"page="+page_no+"Con="+Constant.CATEGORY_LIMIT);
-        Call<List<NewsListModel>> noticeList = RetrofitAPI.getService().getCategoryLimitNews(category_id,page_no*10, Constant.CATEGORY_LIMIT);
-        noticeList.enqueue(new Callback<List<NewsListModel>>() {
-            @Override
-            public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
-                *//*swipeProgress(false);
-                Log.i("Bxx", "fet = " + response.body().size());
-                list.addAll(response.body());
-                for(NewsListModel data: response.body()){
-                    Log.i("postdata1","v ="+data.getPostTitle());
-                }
 
-                mAdapter.notifyDataSetChanged();*//*
-
-
-                swipeProgress(false);
-                List<NewsListModel> resp = response.body();
-                if (resp != null) {
-                    displayApiResult(response.body());
-                    Log.i("checkx","ayo");
-                   *//* list.addAll(response.body());
-                    mAdapter.notifyDataSetChanged();*//*
-                } else {
-                    showNoItemView(true);
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<List<NewsListModel>> call, Throwable throwable) {
-                Log.i("postdata2","v =comedy");
-            }
-        });
-
-    }*/
 
     private void displayApiResult(final List<NewsListModel> posts) {
 

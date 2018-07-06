@@ -1,36 +1,45 @@
 package com.mayurit.hakahaki;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.app.Activity;
+import android.os.Handler;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.OvershootInterpolator;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mayurit.hakahaki.Adapters.ProjectListAdapter;
 import com.mayurit.hakahaki.Helpers.Constant;
+import com.mayurit.hakahaki.Helpers.RecyclerItemClickListener;
 import com.mayurit.hakahaki.Helpers.RetrofitAPI;
 import com.mayurit.hakahaki.Model.AudioModel;
-import com.mayurit.hakahaki.Model.NewsListModel;
+import com.mayurit.hakahaki.Model.ProjectModel;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-import at.blogc.android.views.ExpandableTextView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.mayurit.hakahaki.AudioDetail.EXTRA_OBJC;
-
 public class AudioActivity extends AppCompatActivity {
+
+    public static final String EXTRA_OBJC = "key.EXTRA_OBJC";
 
     String post_id;
     ImageButton btnplay;
@@ -40,12 +49,13 @@ public class AudioActivity extends AppCompatActivity {
     private boolean initialStage = true;
     AudioModel post;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audio);
 
-        Intent intent = getIntent();
+       /* Intent intent = getIntent();
         post = (AudioModel) getIntent().getSerializableExtra(EXTRA_OBJC);
         Toast.makeText(this, "categ = " + post_id, Toast.LENGTH_SHORT).show();
         audio_title = findViewById(R.id.audio_title);
@@ -54,7 +64,7 @@ public class AudioActivity extends AppCompatActivity {
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         btnplay = findViewById(R.id.btnplay);
-      /*  btnplay.setOnClickListener(new View.OnClickListener() {
+      *//*  btnplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(AudioActivity.this, "Play", Toast.LENGTH_SHORT).show();
@@ -123,24 +133,25 @@ public class AudioActivity extends AppCompatActivity {
             return prepared;
         }
 
-*/
+*//*
 
         displayAudioDetail();
-        fetchData();
+        fetchData();*/
 
     }
-    public void fetchData() {
+
+   /* public void fetchData() {
 
         Call<AudioModel> noticeList = RetrofitAPI.getService().getAudioDetail("audio",post.getID());
         noticeList.enqueue(new Callback<AudioModel>() {
             @Override
             public void onResponse(Call<AudioModel> call, Response<AudioModel> response) {
-                               post = (AudioModel) response.body();
+                post = (AudioModel) response.body();
                 if (post != null) {
                     displayAudioDetail();
 
                 } else {
-                   // showNoItemView(true);
+                    // showNoItemView(true);
                 }
             }
 
@@ -158,5 +169,5 @@ public class AudioActivity extends AppCompatActivity {
         Toast.makeText(this, "test" +post.getPostContent(), Toast.LENGTH_SHORT).show();
         audio_description.setText(post.getPostContent());
 
-    }
+    }*/
 }

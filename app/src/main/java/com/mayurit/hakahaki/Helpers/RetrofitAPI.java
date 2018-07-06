@@ -63,6 +63,10 @@ public class RetrofitAPI {
 
         @Headers("Cache-Control:no-cache")
         @GET("./news-api/project/")
+        Call<List<ProjectModel>> getProjectDetail(@Query("project_id") String project_id);
+
+        @Headers("Cache-Control:no-cache")
+        @GET("./news-api/project/")
         Call<List<ProjectModel>> getProjectList();
 
 
@@ -73,6 +77,14 @@ public class RetrofitAPI {
         @Headers("Cache-Control:no-cache")
         @GET("./news-api/detail/")
         Call<AudioModel> getAudioDetail(@Query("ptype") String ptype, @Query("id") String id);
+
+        @Headers("Cache-Control:no-cache")
+        @GET("./news-api/")
+        Call<List<NewsListModel>> getNEEFEJList(@Query("ptype") String ptype, @Query("offset") int offset, @Query("limit") int limit);
+
+        @Headers("Cache-Control:no-cache")
+        @GET("./news-api/detail/")
+        Call<NewsListModel> getNEEFEJDetail(@Query("ptype") String ptype, @Query("id") String id);
 
     }
 }

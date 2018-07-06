@@ -3,7 +3,9 @@ package com.mayurit.hakahaki.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ProjectModel {
+import java.io.Serializable;
+
+public class ProjectModel implements Serializable{
 
     @SerializedName("ID")
     @Expose
@@ -54,6 +56,9 @@ public class ProjectModel {
     }
 
     public Object getLikeCount() {
+        if(likeCount==null){
+            likeCount="";
+        }
         return likeCount;
     }
 
