@@ -3,11 +3,14 @@ package com.mayurit.hakahaki.Helpers;
 import com.mayurit.hakahaki.Model.AudioModel;
 import com.mayurit.hakahaki.Model.CategoryModel;
 import com.mayurit.hakahaki.Model.NewsListModel;
+
+
 import com.mayurit.hakahaki.Model.VideoModel;
 import com.mayurit.hakahaki.Model.ProjectModel;
-import com.mayurit.hakahaki.Model.VideoModel;
-import com.mayurit.hakahaki.Model.ProjectModel;
+
+
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -62,6 +65,9 @@ public class RetrofitAPI {
         @GET("./news-api/detail/")
         Call<NewsListModel> getPostDetail(@Query("id") String id);
 
+
+
+
         @Headers("Cache-Control:no-cache")
         @GET("./news-api/")
         Call<List<VideoModel>> getVideoList(@Query("ptype") String ptype, @Query("offset") int offset, @Query("limit") int limit);
@@ -71,9 +77,7 @@ public class RetrofitAPI {
         Call<VideoModel> getVideoDetail(@Query("ptype") String ptype,@Query("id") String id);
 
 
-     /*   @Headers("Cache-Control:no-cache")
-        @GET("./news-api/news_id/")
-        Call<List<NewsListModel>> getPostDetail(@Query("news_id") String news_id);*/
+
 
         @Headers("Cache-Control:no-cache")
         @GET("./news-api/project/")
@@ -82,6 +86,8 @@ public class RetrofitAPI {
         @Headers("Cache-Control:no-cache")
         @GET("./news-api/project/")
         Call<List<ProjectModel>> getProjectList();
+
+
 
 
         @Headers("Cache-Control:no-cache")
