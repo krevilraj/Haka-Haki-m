@@ -55,9 +55,6 @@ public class AudioDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_list);
         swipe_refresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout_category);
-        Intent intent = getIntent();
-        category_id= intent.getExtras().getInt("category_id");
-        Toast.makeText(this, "categ = "+category_id, Toast.LENGTH_SHORT).show();
         rel_container = (RelativeLayout) findViewById(R.id.rel_container);
         swipeProgress(true);
         swipe_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

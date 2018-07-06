@@ -216,7 +216,6 @@ public class FragmentHome extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, AudioDetail.class);
-                intent.putExtra("category_id",category_audio);
                 startActivity(intent);
             }
         });
