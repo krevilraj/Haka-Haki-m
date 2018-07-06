@@ -4,6 +4,8 @@ import com.mayurit.hakahaki.Model.AudioModel;
 import com.mayurit.hakahaki.Model.CategoryModel;
 import com.mayurit.hakahaki.Model.NewsListModel;
 import com.mayurit.hakahaki.Model.VideoModel;
+import com.mayurit.hakahaki.Model.ProjectModel;
+
 
 import java.util.List;
 
@@ -62,6 +64,7 @@ public class RetrofitAPI {
         Call<NewsListModel> getPostDetail(@Query("id") String id);
 
 
+
         @Headers("Cache-Control:no-cache")
         @GET("./news-api/")
         Call<List<VideoModel>> getVideoList(@Query("ptype") String ptype, @Query("offset") int offset, @Query("limit") int limit);
@@ -72,6 +75,14 @@ public class RetrofitAPI {
 
 
 
+        @Headers("Cache-Control:no-cache")
+        @GET("./news-api/project/")
+        Call<List<ProjectModel>> getProjectDetail(@Query("project_id") String project_id);
+
+        @Headers("Cache-Control:no-cache")
+        @GET("./news-api/project/")
+        Call<List<ProjectModel>> getProjectList();
+
 
 
         @Headers("Cache-Control:no-cache")
@@ -81,6 +92,14 @@ public class RetrofitAPI {
         @Headers("Cache-Control:no-cache")
         @GET("./news-api/detail/")
         Call<AudioModel> getAudioDetail(@Query("ptype") String ptype, @Query("id") String id);
+
+        @Headers("Cache-Control:no-cache")
+        @GET("./news-api/")
+        Call<List<NewsListModel>> getNEEFEJList(@Query("ptype") String ptype, @Query("offset") int offset, @Query("limit") int limit);
+
+        @Headers("Cache-Control:no-cache")
+        @GET("./news-api/detail/")
+        Call<NewsListModel> getNEEFEJDetail(@Query("ptype") String ptype, @Query("id") String id);
 
     }
 }
