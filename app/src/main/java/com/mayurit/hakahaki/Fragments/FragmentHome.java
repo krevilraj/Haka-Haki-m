@@ -46,7 +46,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class FragmentHome extends Fragment {
+public class FragmentHome extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "toolbar_title";
 
     ArrayList<NewsListModel> list = new ArrayList<>();
@@ -55,29 +55,31 @@ public class FragmentHome extends Fragment {
     private String toolbarTitle;
     Context context;
 
-    int category_id,category_id2,category_id28,category_id33,category_audio;
-    LinearLayout lnr_video;
-    CardView nefej,project,music;
-    TextView mainNews1_title,mainNews2_title,mainNews3_title,mainNews4_title,
-            mainNews1_content,mainNews2_content,mainNews3_content,mainNews4_content,
+    int category_id= 34, category_id2 = 2, category_id3 = 28;
+    
+    CardView nefej, project, music, video, members, notice;
+
+
+    TextView mainNews1_title, mainNews2_title, mainNews3_title, mainNews4_title,
+            mainNews1_content, mainNews2_content, mainNews3_content, mainNews4_content,
             mainNews1_date, mainNews2_date, mainNews3_date, mainNews4_date;
-    ImageView mainNews1_image,mainNews2_image,mainNews3_image,mainNews4_image;
+    ImageView mainNews1_image, mainNews2_image, mainNews3_image, mainNews4_image;
 
     //changes for bisheshsamachar
-    TextView bisheshsamachar_header,ent_title1,ent_title2,ent_title3,readmore;
-    ImageView ent_img1,ent_img2,ent_img3;
-    TextView ent_date1,ent_date2,ent_date3;
+    TextView bisheshsamachar_header, ent_title1, ent_title2, ent_title3, readmore;
+    ImageView ent_img1, ent_img2, ent_img3;
+    TextView ent_date1, ent_date2, ent_date3;
 
     //changes for bisheshrepor
-    TextView bisheshreport_header,report_title1,report_title2,report_title3,report_readmore;
-    ImageView report_img1,report_img2,report_img3;
-    TextView report_date1,report_date2,report_date3;
+    TextView bisheshreport_header, report_title1, report_title2, report_title3, report_readmore;
+    ImageView report_img1, report_img2, report_img3;
+    TextView report_date1, report_date2, report_date3;
 
     private Context ctx;
     private LinearLayout lnrlayoutNews;
     DatabaseHelper databaseHelper;
     RelativeLayout rel_container;
-    View view ;
+    View view;
 
     //changes now
     private RecyclerView recyclerView;
@@ -110,15 +112,38 @@ public class FragmentHome extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        category_id =34;
-        view = inflater.inflate(R.layout.fragment_home,null);
-
-        category_id33 = 33;
-       view = inflater.inflate(R.layout.fragment_home,null);
-
-
-        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_home, null);
+        category_id = 34;
         databaseHelper = new DatabaseHelper(context);
+        lnrlayoutNews = view.findViewById(R.id.lnrlayoutNews);
+        initFirstCategorySection();
+        initSecondCategorySection();
+        initThirdCategorySection();
+
+        nefej = view.findViewById(R.id.nefej);
+        project = view.findViewById(R.id.project);
+        music = view.findViewById(R.id.music);
+        video = view.findViewById(R.id.video);
+        notice = view.findViewById(R.id.notice);
+        members = view.findViewById(R.id.members);
+
+        nefej.setOnClickListener(this);
+        project.setOnClickListener(this);
+        music.setOnClickListener(this);
+        video.setOnClickListener(this);
+        notice.setOnClickListener(this);
+        members.setOnClickListener(this);
+
+        mobile_data();
+        fetchNews();
+        fetchNew2();
+        fetchNew3();
+        return view;
+
+    }
+
+    private void initFirstCategorySection() {
+        // Inflate the layout for this fragment
         mainNews1_title = view.findViewById(R.id.mainNews1_title);
         mainNews2_title = view.findViewById(R.id.mainNews2_title);
         mainNews3_title = view.findViewById(R.id.mainNews3_title);
@@ -138,94 +163,51 @@ public class FragmentHome extends Fragment {
         mainNews2_date = view.findViewById(R.id.mainNews2_date);
         mainNews3_date = view.findViewById(R.id.mainNews3_date);
         mainNews4_date = view.findViewById(R.id.mainNews4_date);
+    }
 
+    private void initSecondCategorySection() {
+        bisheshsamachar_header = view.findViewById(R.id.bisheshsamachar_header);
+        ent_title1 = view.findViewById(R.id.ent_title1);
+        ent_title2 = view.findViewById(R.id.ent_title2);
+        ent_title3 = view.findViewById(R.id.ent_title3);
 
-        lnrlayoutNews = view.findViewById(R.id.lnrlayoutNews);
+        ent_date1 = view.findViewById(R.id.ent_date1);
+        ent_date2 = view.findViewById(R.id.ent_date2);
+        ent_date3 = view.findViewById(R.id.ent_date3);
 
-        //bisheshsamachar initialization workflow
-        bisheshsamachar_header=view.findViewById(R.id.bisheshsamachar_header);
-        ent_title1=view.findViewById(R.id.ent_title1);
-        ent_title2=view.findViewById(R.id.ent_title2);
-        ent_title3=view.findViewById(R.id.ent_title3);
+        ent_img1 = view.findViewById(R.id.ent_img1);
+        ent_img2 = view.findViewById(R.id.ent_img2);
+        ent_img3 = view.findViewById(R.id.ent_img3);
 
-        readmore=view.findViewById(R.id.readmore);
+        readmore = view.findViewById(R.id.readmore);
 
-        ent_date1=view.findViewById(R.id.ent_date1);
-        ent_date2=view.findViewById(R.id.ent_date2);
-        ent_date3=view.findViewById(R.id.ent_date3);
+        readmore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, CategoryDetail.class);
+                intent.putExtra("category_id", category_id2);
+                startActivity(intent);
+            }
+        });
+    }
 
-
-        ent_img1=view.findViewById(R.id.ent_img1);
-        ent_img2=view.findViewById(R.id.ent_img2);
-        ent_img3=view.findViewById(R.id.ent_img3);
-        //end of bisheshsamachar portion
-
+    private void initThirdCategorySection() {
         //bishesh report workflow
         bisheshreport_header = view.findViewById(R.id.bisheshreport_header);
-        report_title1=view.findViewById(R.id.report_title1);
-        report_title2=view.findViewById(R.id.report_title2);
-        report_title3=view.findViewById(R.id.report_title3);
+        report_title1 = view.findViewById(R.id.report_title1);
+        report_title2 = view.findViewById(R.id.report_title2);
+        report_title3 = view.findViewById(R.id.report_title3);
 
-        report_readmore=view.findViewById(R.id.report_readmore);
+        report_date1 = view.findViewById(R.id.report_date1);
+        report_date2 = view.findViewById(R.id.report_date2);
+        report_date3 = view.findViewById(R.id.report_date3);
 
-        report_date1=view.findViewById(R.id.report_date1);
-        report_date2=view.findViewById(R.id.report_date2);
-        report_date3=view.findViewById(R.id.report_date3);
+        report_img1 = view.findViewById(R.id.report_img1);
+        report_img2 = view.findViewById(R.id.report_img2);
+        report_img3 = view.findViewById(R.id.report_img3);
 
-
-
-        report_img1=view.findViewById(R.id.report_img1);
-        report_img2=view.findViewById(R.id.report_img2);
-        report_img3=view.findViewById(R.id.report_img3);
+        report_readmore = view.findViewById(R.id.report_readmore);
         //end of bishesh report workflow callling done
-
-
-        //video ma click garda video catagory ko video section
-    lnr_video=view.findViewById(R.id.lnr_video);
-    lnr_video.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(context, VideoDetail.class);
-            intent.putExtra("category_id",category_id33);
-            startActivity(intent);
-        }
-
-
-    });
-    //end this section
-
-        nefej = view.findViewById(R.id.nefej);
-        project = view.findViewById(R.id.project);
-        music = view.findViewById(R.id.music);
-        nefej.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, NEEFEJDetail.class);
-                startActivity(intent);
-            }
-        });
-        project.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ProjectDetail.class);
-                startActivity(intent);
-            }
-        });
-        category_audio = 33;
-        music.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, AudioDetail.class);
-                startActivity(intent);
-            }
-        });
-
-        mobile_data();
-        fetchNews();
-        fetchbisheshsamachar_News();
-        fetchbisheshreport_News();
-        return view;
-
     }
 
     @Override
@@ -233,18 +215,19 @@ public class FragmentHome extends Fragment {
         getActivity().setTitle(toolbarTitle);
         super.onResume();
     }
-    public void  fetchNews(){
-        Call<List<NewsListModel>> newsList = RetrofitAPI.getService().getCategoryLimitNews(category_id,4, Constant.CATEGORY_LIMIT);
+
+    public void fetchNews() {
+        Call<List<NewsListModel>> newsList = RetrofitAPI.getService().getCategoryLimitNews(category_id, 0, 4);
         newsList.enqueue(new Callback<List<NewsListModel>>() {
             @Override
             public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
                 list.addAll(response.body());
-                Log.i("list","data = " +list.get(0).getPostTitle());
+                Log.i("list", "data = " + list.get(0).getPostTitle());
 
                 display(list);
 
                 lnrlayoutNews.setVisibility(View.VISIBLE);
-                for(NewsListModel info:list){
+                for (NewsListModel info : list) {
                     ContentValues cv = new ContentValues();
                     cv.put("post_title", info.getPostTitle());
                     cv.put("category_id", 34);
@@ -253,7 +236,7 @@ public class FragmentHome extends Fragment {
                     databaseHelper.insertMainNews(cv);
                 }
 
-                Log.i("list","data = " +list.get(0).getPostTitle());
+                Log.i("list", "data = " + list.get(0).getPostTitle());
 
 
                 mainNews1_title.setText(list.get(0).getPostTitle());
@@ -277,7 +260,6 @@ public class FragmentHome extends Fragment {
                 Glide.with(context).load(list.get(3).getImageId()).into(mainNews4_image);
 
 
-
             }
 
             @Override
@@ -287,17 +269,17 @@ public class FragmentHome extends Fragment {
         });
     }
 
-    public void  fetchbisheshsamachar_News(){
-        category_id2=2;
-        final Call<List<NewsListModel>> newsList = RetrofitAPI.getService().getCategoryLimitNews(2,0, 3);
+    public void fetchNew2() {
+      
+        final Call<List<NewsListModel>> newsList = RetrofitAPI.getService().getCategoryLimitNews(category_id2, 0, 3);
         newsList.enqueue(new Callback<List<NewsListModel>>() {
             @Override
             public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
                 list1.addAll(response.body());
 
-                Log.i("list","data = " +list1.get(0).getPostTitle());
+                Log.i("list", "data = " + list1.get(0).getPostTitle());
 
-                for(NewsListModel info:list1){
+                for (NewsListModel info : list1) {
                     ContentValues cv = new ContentValues();
                     cv.put("post_title", info.getPostTitle());
                     cv.put("category_id", category_id2);
@@ -320,17 +302,6 @@ public class FragmentHome extends Fragment {
                 Glide.with(context).load(list1.get(1).getImageId()).into(ent_img2);
                 Glide.with(context).load(list1.get(2).getImageId()).into(ent_img3);
 
-                 readmore.setOnClickListener(new View.OnClickListener() {
-                     @Override
-                     public void onClick(View view) {
-                         Intent intent = new Intent(context, CategoryDetail.class);
-                         intent.putExtra("category_id",category_id2);
-                         startActivity(intent);
-                     }
-                 });
-
-
-
             }
 
             @Override
@@ -340,25 +311,24 @@ public class FragmentHome extends Fragment {
         });
     }
 
-    //call the values from server and set
-    public void  fetchbisheshreport_News(){
-        category_id28=28;
-        Call<List<NewsListModel>> newsList = RetrofitAPI.getService().getCategoryLimitNews(28,0, 3);
+    public void fetchNew3() {
+        
+        Call<List<NewsListModel>> newsList = RetrofitAPI.getService().getCategoryLimitNews(category_id3, 0, 3);
         newsList.enqueue(new Callback<List<NewsListModel>>() {
             @Override
             public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
                 list2.addAll(response.body());
 
 
-                for(NewsListModel info:list2){
+                for (NewsListModel info : list2) {
                     ContentValues cv = new ContentValues();
                     cv.put("post_title", info.getPostTitle());
-                    cv.put("category_id", category_id28);
+                    cv.put("category_id", category_id3);
                     cv.put("post_date", info.getPostDate());
                     cv.put("post_description", info.getPostExcerpt());
                     databaseHelper.insertMainNews(cv);
                 }
-                Log.i("list","data = " +list2.get(0).getPostTitle());
+                Log.i("list", "data = " + list2.get(0).getPostTitle());
 
 
                 //set the values from the server to filed in bishesh report
@@ -378,7 +348,7 @@ public class FragmentHome extends Fragment {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(context, CategoryDetail.class);
-                        intent.putExtra("category_id",category_id28);
+                        intent.putExtra("category_id", category_id3);
                         startActivity(intent);
                     }
                 });
@@ -392,29 +362,21 @@ public class FragmentHome extends Fragment {
         });
 
     }
-    public void mobile_data(){
-        Log.i("msz", "v="+databaseHelper.countRowTable("tbl_news"));
-        if((databaseHelper.countRowTable("tbl_news") == 0)){
+
+    public void mobile_data() {
+        if ((databaseHelper.countRowTable("tbl_news") == 0)) {
             netCheck();
-        }
-        else {
-            List<NewsListModel> listModel = databaseHelper.getQAList("34");
-            // list.addAll(databaseHelper.getQAList("34"));
-            Log.i("msz","size = "+list.size());
+        } else {
+            List<NewsListModel> listModel = databaseHelper.getQAList(""+category_id);
             display(listModel);
 
-                List<NewsListModel> list1 = databaseHelper.getQAList("2");
-                // list.addAll(databaseHelper.getQAList("34"));
-                Log.i("msz","size = "+list.size());
-                displaybish(list1);
+            List<NewsListModel> list1 = databaseHelper.getQAList(""+category_id2);
+            display2(list1);
 
-                List<NewsListModel> list2 = databaseHelper.getQAList("28");
-                // list.addAll(databaseHelper.getQAList("34"));
-                Log.i("msz","size = "+list.size());
-                displayreport(list2);
-           lnrlayoutNews.setVisibility(View.VISIBLE);
-            }
-
+            List<NewsListModel> list2 = databaseHelper.getQAList(""+category_id3);
+            display3(list2);
+            lnrlayoutNews.setVisibility(View.VISIBLE);
+        }
 
 
     }
@@ -464,11 +426,11 @@ public class FragmentHome extends Fragment {
         Glide.with(context).load(list.get(1).getImageId()).into(mainNews2_image);
         Glide.with(context).load(list.get(2).getImageId()).into(mainNews3_image);
         Glide.with(context).load(list.get(3).getImageId()).into(mainNews4_image);
+
     }
 
-
     //ofline catch for samachar
-    private void displaybish(List<NewsListModel> list1) {
+    private void display2(List<NewsListModel> list1) {
 
         ent_title1.setText(list1.get(0).getPostTitle());
         ent_title2.setText(list1.get(1).getPostTitle());
@@ -484,7 +446,7 @@ public class FragmentHome extends Fragment {
     }
 
     //ofline ko lagi list ma database ma pathako
-    private void displayreport(List<NewsListModel> list2) {
+    private void display3(List<NewsListModel> list2) {
 
         report_title1.setText(list2.get(0).getPostTitle());
         report_title2.setText(list2.get(1).getPostTitle());
@@ -500,6 +462,29 @@ public class FragmentHome extends Fragment {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        Intent intent;
+        switch (view.getId()) {
+            case R.id.nefej:
+                intent = new Intent(context, NEEFEJDetail.class);
+                startActivity(intent);
+                break;
+            case R.id.project:
+                intent = new Intent(context, ProjectDetail.class);
+                startActivity(intent);
+                break;
+            case R.id.music:
+                intent = new Intent(context, AudioDetail.class);
+                startActivity(intent);
+                break;
+            case R.id.video:
+                intent = new Intent(context, VideoDetail.class);
+                startActivity(intent);
+                break;
 
-
+            default:
+                break;
+        }
+    }
 }
