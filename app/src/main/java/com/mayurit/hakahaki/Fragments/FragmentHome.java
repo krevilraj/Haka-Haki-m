@@ -31,6 +31,7 @@ import com.mayurit.hakahaki.Helpers.Constant;
 import com.mayurit.hakahaki.Helpers.DatabaseHelper;
 import com.mayurit.hakahaki.Helpers.RetrofitAPI;
 import com.mayurit.hakahaki.Model.NewsListModel;
+import com.mayurit.hakahaki.NEEFEJDetail;
 import com.mayurit.hakahaki.ProjectDetail;
 import com.mayurit.hakahaki.R;
 import com.mayurit.hakahaki.VideoDetail;
@@ -197,7 +198,7 @@ public class FragmentHome extends Fragment {
         nefej.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, ProjectDetail.class);
+                Intent intent = new Intent(context, NEEFEJDetail.class);
                 startActivity(intent);
             }
         });

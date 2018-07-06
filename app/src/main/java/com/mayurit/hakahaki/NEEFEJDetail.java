@@ -88,7 +88,7 @@ public class NEEFEJDetail extends AppCompatActivity {
                         NewsListModel singleItem = list.get(position);
                         Toast.makeText(NEEFEJDetail.this, "categ = " + singleItem.getID(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(NEEFEJDetail.this, ActivityPostDetail.class);
-                        intent.putExtra("post_id",singleItem.getID());
+//                        intent.putExtra("post_id",singleItem.getID());
                         intent.putExtra(EXTRA_OBJC, (Serializable) singleItem);
                         startActivity(intent);
 

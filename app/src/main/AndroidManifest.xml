@@ -37,6 +37,7 @@
         <activity android:name=".ProjectDetail"/>
         <activity android:name=".ActivityProjectDetail"/>
         <activity android:name=".NEEFEJDetail"/>
+        <activity android:name=".ActivityNEEFEJDetail"/>
 
     </application>
 
