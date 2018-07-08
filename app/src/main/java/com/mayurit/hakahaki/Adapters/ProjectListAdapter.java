@@ -87,7 +87,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             final OriginalViewHolder holder = (OriginalViewHolder) holder1;
 
             holder.mTitle.setText(mData.getPostTitle());
-//            holder.mDescription.setText(mData.getPostTitle());
+            holder.mDescription.setText(mData.getPost_excerpt());
             holder.mDate.setText(mData.getPostDate());
             if(!mData.getImageId().equals("")){
                 holder.mAltImage.setVisibility(View.INVISIBLE);

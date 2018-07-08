@@ -32,6 +32,7 @@ import com.mayurit.hakahaki.CategoryDetail;
 import com.mayurit.hakahaki.Helpers.Constant;
 import com.mayurit.hakahaki.Helpers.DatabaseHelper;
 import com.mayurit.hakahaki.Helpers.RetrofitAPI;
+import com.mayurit.hakahaki.MainActivity;
 import com.mayurit.hakahaki.Model.NewsListModel;
 
 import com.mayurit.hakahaki.NEEFEJDetail;
@@ -87,11 +88,14 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     private LinearLayout lnrlayoutNews;
     DatabaseHelper databaseHelper;
     RelativeLayout rel_container;
+    Fragment fragment;
     View view;
 
     //changes now
     private RecyclerView recyclerView;
     CategoryAdapter mAdapter;
+
+    String toolbartitle="Home";
 
     public FragmentHome() {
         // Required empty public constructor
@@ -516,8 +520,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         Intent intent;
         switch (view.getId()) {
             case R.id.nefej:
-                intent = new Intent(context, NEEFEJDetail.class);
-                startActivity(intent);
+                ((MainActivity) getActivity()).changeFragment(FragmentNEFEJ.newInstance());
                 break;
             case R.id.project:
                 intent = new Intent(context, ProjectDetail.class);

@@ -22,6 +22,28 @@ public class ProjectModel implements Serializable{
     @SerializedName("like_count")
     @Expose
     private Object likeCount;
+    @SerializedName("post_excerpt")
+    @Expose
+    private String post_excerpt;
+    @SerializedName("post_content")
+    @Expose
+    private String post_content;
+
+    public String getPost_excerpt() {
+        return post_excerpt;
+    }
+
+    public void setPost_excerpt(String post_excerpt) {
+        this.post_excerpt = post_excerpt;
+    }
+
+    public String getPost_content() {
+        return post_content;
+    }
+
+    public void setPost_content(String post_content) {
+        this.post_content = post_content;
+    }
 
     public String getID() {
         return iD;

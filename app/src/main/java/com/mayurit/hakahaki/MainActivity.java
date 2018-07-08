@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -169,11 +170,8 @@ public class MainActivity extends AppCompatActivity
 
 
     public void RateUs() {
-        //   Uri uri = Uri.parse("market://details?id=" + MainActivity.this.getPackageName());
         Uri uri = Uri.parse("market://details?id=com.mayurit.nepaliloksewapreparation");
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-        // To count with Play market backstack, After pressing back button,
-        // to taken back to our application, we need to add following flags to intent.
         goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
                 Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
@@ -184,6 +182,23 @@ public class MainActivity extends AppCompatActivity
                     Uri.parse("https://play.google.com/store/apps/details?id=com.mayurit.nepaliloksewapreparation" +
                             MainActivity.this.getPackageName())));
         }
+    }
+
+    public void changeFragment(Fragment fragment, Long id) {
+        Bundle bundle = new Bundle();
+        bundle.putLong("mID", id);
+        fragment.setArguments(bundle);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.commit();
+
+    }
+
+    public void changeFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.commit();
+
     }
 
 }
