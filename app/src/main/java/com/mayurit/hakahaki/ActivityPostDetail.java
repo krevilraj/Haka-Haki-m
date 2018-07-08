@@ -23,7 +23,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,12 +56,17 @@ public class ActivityPostDetail extends AppCompatActivity {
     TextView txt_title,txt_date,txt_like_count;
     ImageView img_full;
     WebView web_description;
+    private ProgressBar spinner;
+    Button b1;
+    SwipeRefreshLayout swipe_refresh_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
         Intent intent = getIntent();
+        refresh();
+        loading(true);
         post = (NewsListModel) getIntent().getSerializableExtra(EXTRA_OBJC);
 
         Log.i("postdatax1",post.getPostTitle());
@@ -70,6 +77,7 @@ public class ActivityPostDetail extends AppCompatActivity {
         txt_like_count = (TextView) findViewById(R.id.txt_like_count);
         img_full = (ImageView) findViewById(R.id.img_full);
         web_description = (WebView) findViewById(R.id.web_description);
+
         displayApiResult(post);
 
         netCheck();
@@ -131,9 +139,11 @@ public class ActivityPostDetail extends AppCompatActivity {
                 NewsListModel resp = response.body();
                 if (resp != null) {
                     displayResult(resp);
+                    loading(false);
+                    swipe_refresh_layout.setRefreshing(false);
 
                 } else {
-                    showNoItemView(true);
+//                    showNoItemView(true);
                 }
 
 
@@ -157,6 +167,7 @@ public class ActivityPostDetail extends AppCompatActivity {
         }
         web_description.loadData(posts.getPostExcerpt(),"text/html; charset=utf-8","utf-8");
         Glide.with(getApplicationContext()).load(posts.getImageId()).into(img_full);
+
     }
 
 
@@ -224,4 +235,31 @@ public class ActivityPostDetail extends AppCompatActivity {
         //sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
         act.startActivity(Intent.createChooser(sharingIntent, "Share Using"));
     }
+   public void   loading(boolean show){
+       spinner = (ProgressBar)findViewById(R.id.progressBar2);
+       // spinner.setVisibility(View.GONE);
+
+        if(show){
+            spinner.setVisibility(View.VISIBLE);
+        }else{
+            spinner.setVisibility(View.GONE);
+        }
+       //b1=(Button)findViewById(R.id.button);
+
+
+
+
+   }
+   public void refresh(){
+       swipe_refresh_layout = findViewById(R.id.swipe_refresh_layout);
+       swipe_refresh_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+           @Override
+           public void onRefresh() {
+               swipe_refresh_layout.setRefreshing(true);
+
+               fetchData();
+           }
+       });
+
+   }
 }

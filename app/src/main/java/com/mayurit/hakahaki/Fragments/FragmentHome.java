@@ -13,6 +13,8 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -59,7 +61,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     private String toolbarTitle;
     Context context;
 
-    int category_id = 34, category_id2 = 2, category_id3 = 28;
+    int category_id = 34, category_id2 = 2, category_id3 = 28,category_idsp = 102;
 
     CardView nefej, project, music, video, members, notice;
 
@@ -82,6 +84,9 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     TextView bisheshreport_header, report_title1, report_title2, report_title3, report_readmore;
     ImageView report_img1, report_img2, report_img3;
     TextView report_date1, report_date2, report_date3;
+
+    //changes for spnews
+    TextView tajakhabar;
 
     private Context ctx;
     private LinearLayout lnrlayoutNews;
@@ -121,6 +126,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_home, null);
+
         category_id = 34;
         databaseHelper = new DatabaseHelper(context);
         lnrlayoutNews = view.findViewById(R.id.lnrlayoutNews);
@@ -134,6 +140,8 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         video = view.findViewById(R.id.video);
         notice = view.findViewById(R.id.notice);
         members = view.findViewById(R.id.members);
+        tajakhabar = view.findViewById(R.id.tajakhabar);
+
 
         nefej.setOnClickListener(this);
         project.setOnClickListener(this);
@@ -141,6 +149,8 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         video.setOnClickListener(this);
         notice.setOnClickListener(this);
         members.setOnClickListener(this);
+        tajakhabar.setOnClickListener(this);
+
 
         mobile_data();
         fetchNews();
@@ -149,6 +159,18 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         return view;
 
     }
+/*    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate your main_menu into the menu
+        getMenuInflater().inflate(R.menu.activity_main_drawer, menu);
+
+        // Find the menuItem to add your SubMenu
+        MenuItem myMenuItem = menu.findItem(R.id.submenu_one);
+
+        // Inflating the sub_menu menu this way, will add its menu items
+        // to the empty SubMenu you created in the xml
+        getMenuInflater().inflate(R.menu., myMenuItem.getSubMenu());
+
+    }*/
 
     private void initFirstCategorySection() {
         // Inflate the layout for this fragment
@@ -529,6 +551,11 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                 break;
             case R.id.video:
                 intent = new Intent(context, VideoDetail.class);
+                startActivity(intent);
+                break;
+            case R.id.tajakhabar:
+                 intent = new Intent(context, CategoryDetail.class);
+                intent.putExtra("category_id", category_idsp);
                 startActivity(intent);
                 break;
             case R.id.card_view_mainNews1:
