@@ -1,5 +1,6 @@
 package com.mayurit.hakahaki.Helpers;
 
+
         import com.mayurit.hakahaki.Model.AudioModel;
         import com.mayurit.hakahaki.Model.CategoryModel;
         import com.mayurit.hakahaki.Model.NewsListModel;
@@ -10,6 +11,7 @@ package com.mayurit.hakahaki.Helpers;
 
 
         import java.util.List;
+
 
         import retrofit2.Call;
         import retrofit2.Retrofit;
@@ -86,8 +88,6 @@ public class RetrofitAPI {
         @Headers("Cache-Control:no-cache")
         @GET("./news-api/project/")
         Call<List<ProjectModel>> getProjectList();
-
-
 
 
         @Headers("Cache-Control:no-cache")
