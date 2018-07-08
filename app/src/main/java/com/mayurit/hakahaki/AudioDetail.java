@@ -83,7 +83,6 @@ public class AudioDetail extends AppCompatActivity {
                     public void onItemClick(View view, int position) {
                         AudioModel singleItem = list.get(position);
                         Intent intent = new Intent(AudioDetail.this, AudioActivity.class);
-                     //   intent.putExtra("post_id",singleItem.getID());
                         intent.putExtra(EXTRA_OBJC, (Serializable) singleItem);
                         startActivity(intent);
 
@@ -193,7 +192,7 @@ public class AudioDetail extends AppCompatActivity {
 
 
     public void fetchData() {
-       Log.i("Bxx","categoryid="+category_id+"page="+page_no+"Con="+Constant.CATEGORY_LIMIT);
+        Log.i("Bxx","categoryid="+category_id+"page="+page_no+"Con="+Constant.CATEGORY_LIMIT);
 
         Call<List<AudioModel>> noticeList = RetrofitAPI.getService().getAudioList("audio",page_no*10, Constant.CATEGORY_LIMIT);
         noticeList.enqueue(new Callback<List<AudioModel>>() {
