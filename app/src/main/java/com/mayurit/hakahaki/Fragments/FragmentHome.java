@@ -21,8 +21,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
 
+import com.mayurit.hakahaki.ActivityPostDetail;
 import com.mayurit.hakahaki.Adapters.CategoryAdapter;
 
 import com.mayurit.hakahaki.AudioDetail;
@@ -38,6 +40,7 @@ import com.mayurit.hakahaki.ProjectDetail;
 import com.mayurit.hakahaki.R;
 import com.mayurit.hakahaki.VideoDetail;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +51,7 @@ import retrofit2.Response;
 
 public class FragmentHome extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "toolbar_title";
+    public static final String EXTRA_OBJC = "key.EXTRA_OBJC";
 
     ArrayList<NewsListModel> list = new ArrayList<>();
     ArrayList<NewsListModel> list1 = new ArrayList<>();
@@ -55,9 +59,13 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     private String toolbarTitle;
     Context context;
 
-    int category_id= 34, category_id2 = 2, category_id3 = 28;
-    
+    int category_id = 34, category_id2 = 2, category_id3 = 28;
+
     CardView nefej, project, music, video, members, notice;
+
+    CardView main_news1, main_news2, main_news3, main_news4;
+    LinearLayout main_news_a1, main_news_a2, main_news_a3;
+    LinearLayout main_news_b1, main_news_b2, main_news_b3;
 
 
     TextView mainNews1_title, mainNews2_title, mainNews3_title, mainNews4_title,
@@ -163,6 +171,11 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         mainNews2_date = view.findViewById(R.id.mainNews2_date);
         mainNews3_date = view.findViewById(R.id.mainNews3_date);
         mainNews4_date = view.findViewById(R.id.mainNews4_date);
+
+        main_news1 = view.findViewById(R.id.card_view_mainNews1);
+        main_news2 = view.findViewById(R.id.card_view_mainNews2);
+        main_news3 = view.findViewById(R.id.card_view_mainNews3);
+        main_news4 = view.findViewById(R.id.card_view_mainNews4);
     }
 
     private void initSecondCategorySection() {
@@ -189,6 +202,14 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                 startActivity(intent);
             }
         });
+
+        main_news_a1 = view.findViewById(R.id.mtrl_main2_news1);
+        main_news_a2 = view.findViewById(R.id.mtrl_main2_news2);
+        main_news_a3 = view.findViewById(R.id.mtrl_main2_news3);
+        main_news_a1.setOnClickListener(this);
+        main_news_a2.setOnClickListener(this);
+        main_news_a3.setOnClickListener(this);
+
     }
 
     private void initThirdCategorySection() {
@@ -207,6 +228,16 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         report_img3 = view.findViewById(R.id.report_img3);
 
         report_readmore = view.findViewById(R.id.report_readmore);
+
+        main_news_b1 = view.findViewById(R.id.mtrl_main3_news1);
+        main_news_b2 = view.findViewById(R.id.mtrl_main3_news2);
+        main_news_b3 = view.findViewById(R.id.mtrl_main3_news3);
+
+        main_news_b1.setOnClickListener(this);
+        main_news_b2.setOnClickListener(this);
+        main_news_b3.setOnClickListener(this);
+
+
         //end of bishesh report workflow callling done
     }
 
@@ -221,6 +252,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         newsList.enqueue(new Callback<List<NewsListModel>>() {
             @Override
             public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
+                list.clear();
                 list.addAll(response.body());
                 Log.i("list", "data = " + list.get(0).getPostTitle());
 
@@ -270,11 +302,12 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     }
 
     public void fetchNew2() {
-      
+
         final Call<List<NewsListModel>> newsList = RetrofitAPI.getService().getCategoryLimitNews(category_id2, 0, 3);
         newsList.enqueue(new Callback<List<NewsListModel>>() {
             @Override
             public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
+                list1.clear();
                 list1.addAll(response.body());
 
                 Log.i("list", "data = " + list1.get(0).getPostTitle());
@@ -312,11 +345,12 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     }
 
     public void fetchNew3() {
-        
+
         Call<List<NewsListModel>> newsList = RetrofitAPI.getService().getCategoryLimitNews(category_id3, 0, 3);
         newsList.enqueue(new Callback<List<NewsListModel>>() {
             @Override
             public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
+                list2.clear();
                 list2.addAll(response.body());
 
 
@@ -367,13 +401,13 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         if ((databaseHelper.countRowTable("tbl_news") == 0)) {
             netCheck();
         } else {
-            List<NewsListModel> listModel = databaseHelper.getQAList(""+category_id);
-            display(listModel);
+            list = databaseHelper.getQAList("" + category_id);
+            display(list);
 
-            List<NewsListModel> list1 = databaseHelper.getQAList(""+category_id2);
+            list1 = databaseHelper.getQAList("" + category_id2);
             display2(list1);
 
-            List<NewsListModel> list2 = databaseHelper.getQAList(""+category_id3);
+            list2 = databaseHelper.getQAList("" + category_id3);
             display3(list2);
             lnrlayoutNews.setVisibility(View.VISIBLE);
         }
@@ -427,6 +461,11 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         Glide.with(context).load(list.get(2).getImageId()).into(mainNews3_image);
         Glide.with(context).load(list.get(3).getImageId()).into(mainNews4_image);
 
+        main_news1.setOnClickListener(this);
+        main_news2.setOnClickListener(this);
+        main_news3.setOnClickListener(this);
+        main_news4.setOnClickListener(this);
+
     }
 
     //ofline catch for samachar
@@ -443,6 +482,11 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         Glide.with(context).load(list1.get(0).getImageId()).into(ent_img1);
         Glide.with(context).load(list1.get(1).getImageId()).into(ent_img2);
         Glide.with(context).load(list1.get(2).getImageId()).into(ent_img3);
+
+        main_news_a1.setOnClickListener(this);
+        main_news_a2.setOnClickListener(this);
+        main_news_a3.setOnClickListener(this);
+
     }
 
     //ofline ko lagi list ma database ma pathako
@@ -459,6 +503,11 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         Glide.with(context).load(list2.get(0).getImageId()).into(report_img1);
         Glide.with(context).load(list2.get(1).getImageId()).into(report_img2);
         Glide.with(context).load(list2.get(2).getImageId()).into(report_img3);
+
+        main_news_b1.setOnClickListener(this);
+        main_news_b2.setOnClickListener(this);
+        main_news_b3.setOnClickListener(this);
+
     }
 
 
@@ -482,7 +531,56 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                 intent = new Intent(context, VideoDetail.class);
                 startActivity(intent);
                 break;
-
+            case R.id.card_view_mainNews1:
+                intent = new Intent(context, ActivityPostDetail.class);
+                intent.putExtra(EXTRA_OBJC, (Serializable) list.get(0));
+                startActivity(intent);
+                break;
+            case R.id.card_view_mainNews2:
+                intent = new Intent(context, ActivityPostDetail.class);
+                intent.putExtra(EXTRA_OBJC, (Serializable) list.get(1));
+                startActivity(intent);
+                break;
+            case R.id.card_view_mainNews3:
+                intent = new Intent(context, ActivityPostDetail.class);
+                intent.putExtra(EXTRA_OBJC, (Serializable) list.get(2));
+                startActivity(intent);
+                break;
+            case R.id.card_view_mainNews4:
+                intent = new Intent(context, ActivityPostDetail.class);
+                intent.putExtra(EXTRA_OBJC, (Serializable) list.get(3));
+                startActivity(intent);
+                break;
+            case R.id.mtrl_main2_news1:
+                intent = new Intent(context, ActivityPostDetail.class);
+                intent.putExtra(EXTRA_OBJC, (Serializable) list1.get(0));
+                startActivity(intent);
+                break;
+            case R.id.mtrl_main2_news2:
+                intent = new Intent(context, ActivityPostDetail.class);
+                intent.putExtra(EXTRA_OBJC, (Serializable) list1.get(1));
+                startActivity(intent);
+                break;
+            case R.id.mtrl_main2_news3:
+                intent = new Intent(context, ActivityPostDetail.class);
+                intent.putExtra(EXTRA_OBJC, (Serializable) list1.get(2));
+                startActivity(intent);
+                break;
+            case R.id.mtrl_main3_news1:
+                intent = new Intent(context, ActivityPostDetail.class);
+                intent.putExtra(EXTRA_OBJC, (Serializable) list2.get(0));
+                startActivity(intent);
+                break;
+            case R.id.mtrl_main3_news2:
+                intent = new Intent(context, ActivityPostDetail.class);
+                intent.putExtra(EXTRA_OBJC, (Serializable) list2.get(1));
+                startActivity(intent);
+                break;
+            case R.id.mtrl_main3_news3:
+                intent = new Intent(context, ActivityPostDetail.class);
+                intent.putExtra(EXTRA_OBJC, (Serializable) list2.get(2));
+                startActivity(intent);
+                break;
             default:
                 break;
         }

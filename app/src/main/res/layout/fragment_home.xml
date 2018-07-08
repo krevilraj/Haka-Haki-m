@@ -177,7 +177,6 @@
                     android:foreground="?android:attr/selectableItemBackground">
 
                     <LinearLayout
-                        android:id="@+id/lnr_video"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#93c54c"
@@ -346,11 +345,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-               android:visibility="gone" >
+                android:visibility="gone">
 
 
                 <android.support.v7.widget.CardView
-                    android:id="@+id/card_viewMainNews1"
+                    android:id="@+id/card_view_mainNews1"
                     style="@style/cardMargin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -418,7 +417,7 @@
 
                         </RelativeLayout>
 
-                            <ImageView
+                        <ImageView
                             android:id="@+id/mainNews1_image"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
@@ -467,7 +466,7 @@
 
 
                 <android.support.v7.widget.CardView
-                    android:id="@+id/card_viewMainNews2"
+                    android:id="@+id/card_view_mainNews2"
                     style="@style/cardMargin"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -876,13 +875,13 @@
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
+
                 <android.support.v7.widget.CardView
+                    style="@style/cardMargin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/cardMargin"
 
-                    app:cardCornerRadius="2dp"
-                    >
+                    app:cardCornerRadius="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -890,18 +889,19 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/categoryTitle"
                             android:id="@+id/bisheshsamachar_header"
+                            style="@style/categoryTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="बिशेष समाचार " />
 
                         <com.balysv.materialripple.MaterialRippleLayout
+
                             style="@style/RippleStyleBlack"
                             android:layout_width="match_parent"
                             android:layout_height="80dp">
 
-                            <LinearLayout
+                            <LinearLayout  android:id="@+id/mtrl_main2_news1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:clickable="true"
@@ -932,7 +932,7 @@
                                             android:layout_width="@dimen/news_row_img"
                                             android:layout_height="@dimen/news_row_img"
                                             android:scaleType="centerCrop"
-                                            android:src="@drawable/messi"/>
+                                            android:src="@drawable/messi" />
 
                                     </RelativeLayout>
 
@@ -948,9 +948,9 @@
                                             android:id="@+id/ent_title1"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:ellipsize="end"
                                             android:maxLines="2"
                                             android:text="चीन सरकारलाई उपहार दिने भनिएको एक जोडी गैंडाको "
-                                            android:ellipsize="end"
                                             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                             android:textColor="@color/grey_dark"
                                             android:textStyle="bold" />
@@ -998,11 +998,12 @@
                         </com.balysv.materialripple.MaterialRippleLayout>
 
                         <com.balysv.materialripple.MaterialRippleLayout
+
                             style="@style/RippleStyleBlack"
                             android:layout_width="match_parent"
                             android:layout_height="80dp">
 
-                            <LinearLayout
+                            <LinearLayout  android:id="@+id/mtrl_main2_news2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:clickable="true"
@@ -1032,7 +1033,7 @@
                                             android:layout_width="@dimen/news_row_img"
                                             android:layout_height="@dimen/news_row_img"
                                             android:scaleType="centerCrop"
-                                            android:src="@drawable/messi"/>
+                                            android:src="@drawable/messi" />
 
                                     </RelativeLayout>
 
@@ -1044,13 +1045,13 @@
                                         android:layout_weight="1"
                                         android:orientation="vertical">
 
-                                         <TextView
+                                        <TextView
                                             android:id="@+id/ent_title2"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:ellipsize="end"
                                             android:maxLines="2"
                                             android:text="चीन सरकारलाई उपहार दिने भनिएको एक जोडी गैंडाको "
-                                            android:ellipsize="end"
                                             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                             android:textColor="@color/grey_dark"
                                             android:textStyle="bold" />
@@ -1096,12 +1097,14 @@
                             </LinearLayout>
 
                         </com.balysv.materialripple.MaterialRippleLayout>
+
                         <com.balysv.materialripple.MaterialRippleLayout
+
                             style="@style/RippleStyleBlack"
                             android:layout_width="match_parent"
                             android:layout_height="80dp">
 
-                            <LinearLayout
+                            <LinearLayout android:id="@+id/mtrl_main2_news3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:clickable="true"
@@ -1148,9 +1151,9 @@
                                             android:id="@+id/ent_title3"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:ellipsize="end"
                                             android:maxLines="2"
                                             android:text="चीन सरकारलाई उपहार दिने भनिएको एक जोडी गैंडाको "
-                                            android:ellipsize="end"
                                             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                             android:textColor="@color/grey_dark"
                                             android:textStyle="bold" />
@@ -1198,7 +1201,6 @@
                         </com.balysv.materialripple.MaterialRippleLayout>
 
 
-
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
@@ -1220,10 +1222,11 @@
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
+
                 <android.support.v7.widget.CardView
+                    style="@style/cardMargin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/cardMargin"
                     app:cardCornerRadius="2dp">
 
                     <LinearLayout
@@ -1232,18 +1235,19 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/categoryTitle"
                             android:id="@+id/bisheshreport_header"
+                            style="@style/categoryTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="बिशेष  रिपोर्ट " />
 
                         <com.balysv.materialripple.MaterialRippleLayout
+
                             style="@style/RippleStyleBlack"
                             android:layout_width="match_parent"
                             android:layout_height="80dp">
 
-                            <LinearLayout
+                            <LinearLayout  android:id="@+id/mtrl_main3_news1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:clickable="true"
@@ -1273,7 +1277,7 @@
                                             android:layout_width="@dimen/news_row_img"
                                             android:layout_height="@dimen/news_row_img"
                                             android:scaleType="centerCrop"
-                                            android:src="@drawable/messi"/>
+                                            android:src="@drawable/messi" />
 
                                     </RelativeLayout>
 
@@ -1289,9 +1293,9 @@
                                             android:id="@+id/report_title1"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:ellipsize="end"
                                             android:maxLines="2"
                                             android:text="चीन सरकारलाई उपहार दिने भनिएको एक जोडी गैंडाको "
-                                            android:ellipsize="end"
                                             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                             android:textColor="@color/grey_dark"
                                             android:textStyle="bold" />
@@ -1343,7 +1347,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="80dp">
 
-                            <LinearLayout
+                            <LinearLayout android:id="@+id/mtrl_main3_news2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:clickable="true"
@@ -1373,7 +1377,7 @@
                                             android:layout_width="@dimen/news_row_img"
                                             android:layout_height="@dimen/news_row_img"
                                             android:scaleType="centerCrop"
-                                            android:src="@drawable/messi"/>
+                                            android:src="@drawable/messi" />
 
                                     </RelativeLayout>
 
@@ -1389,9 +1393,9 @@
                                             android:id="@+id/report_title2"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:ellipsize="end"
                                             android:maxLines="2"
                                             android:text="चीन सरकारलाई उपहार दिने भनिएको एक जोडी गैंडाको "
-                                            android:ellipsize="end"
                                             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                             android:textColor="@color/grey_dark"
                                             android:textStyle="bold" />
@@ -1437,12 +1441,14 @@
                             </LinearLayout>
 
                         </com.balysv.materialripple.MaterialRippleLayout>
+
                         <com.balysv.materialripple.MaterialRippleLayout
+
                             style="@style/RippleStyleBlack"
                             android:layout_width="match_parent"
                             android:layout_height="80dp">
 
-                            <LinearLayout
+                            <LinearLayout android:id="@+id/mtrl_main3_news3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:clickable="true"
@@ -1489,9 +1495,9 @@
                                             android:id="@+id/report_title3"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:ellipsize="end"
                                             android:maxLines="2"
                                             android:text="चीन सरकारलाई उपहार दिने भनिएको एक जोडी गैंडाको "
-                                            android:ellipsize="end"
                                             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                             android:textColor="@color/grey_dark"
                                             android:textStyle="bold" />
@@ -1537,7 +1543,6 @@
                             </LinearLayout>
 
                         </com.balysv.materialripple.MaterialRippleLayout>
-
 
 
                         <View

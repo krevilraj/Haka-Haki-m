@@ -46,7 +46,6 @@ public class VideoDetail extends AppCompatActivity {
     ArrayList<VideoModel> list = new ArrayList<>();
     private RecyclerView recyclerView;
     RelativeLayout rel_container;
-    int category_id;
     SwipeRefreshLayout swipe_refresh;
 
     VideoListAdapter mAdapter;
@@ -58,8 +57,6 @@ public class VideoDetail extends AppCompatActivity {
         setContentView(R.layout.activity_category_list);
         swipe_refresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout_category);
         Intent intent = getIntent();
-        category_id= intent.getExtras().getInt("category_id");
-        Toast.makeText(this, "categ = "+category_id, Toast.LENGTH_SHORT).show();
         rel_container = (RelativeLayout) findViewById(R.id.rel_container);
         swipeProgress(true);
         swipe_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -200,7 +197,6 @@ public class VideoDetail extends AppCompatActivity {
 
 
     public void fetchData() {
-       Log.i("Bxx","categoryid="+category_id+"page="+page_no+"Con="+Constant.CATEGORY_LIMIT);
 
         Call<List<VideoModel>> noticeList = RetrofitAPI.getService().getVideoList("video",page_no*10, Constant.CATEGORY_LIMIT);
         noticeList.enqueue(new Callback<List<VideoModel>>() {
@@ -224,7 +220,6 @@ public class VideoDetail extends AppCompatActivity {
 
     }
     public void fetchData1() {
-        Log.i("Bxx1","categoryid="+category_id+"page="+page_no+"Con="+Constant.CATEGORY_LIMIT);
         Call<List<VideoModel>> noticeList = RetrofitAPI.getService().getVideoList("video",page_no*10, Constant.CATEGORY_LIMIT);
         noticeList.enqueue(new Callback<List<VideoModel>>() {
             @Override

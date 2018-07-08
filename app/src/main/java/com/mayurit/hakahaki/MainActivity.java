@@ -1,6 +1,7 @@
 package com.mayurit.hakahaki;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -111,23 +112,31 @@ public class MainActivity extends AppCompatActivity
 
 
         int id = item.getItemId();
-
-
+        Intent intent;
+        Context context = getApplicationContext();
         if (id == R.id.nav_home) {
             toolbartitle = "Home";
             fragment = FragmentHome.newInstance(toolbartitle);
         } else if (id == R.id.nav_nefej) {
-            toolbartitle = (String) getText(R.string.nefej);
-            fragment = FragmentNEFEJ.newInstance(toolbartitle);
+           /* toolbartitle = (String) getText(R.string.nefej);
+            fragment = FragmentNEFEJ.newInstance(toolbartitle);*/
+            intent = new Intent(context, NEEFEJDetail.class);
+            startActivity(intent);
         } else if (id == R.id.nav_project) {
-            toolbartitle = (String) getText(R.string.project);
-            fragment = FragmentProject.newInstance(toolbartitle);
+            intent = new Intent(context, ProjectDetail.class);
+            startActivity(intent);
+            /*toolbartitle = (String) getText(R.string.project);
+            fragment = FragmentProject.newInstance(toolbartitle);*/
         } else if (id == R.id.nav_video) {
-            toolbartitle = (String) getText(R.string.video);
-            fragment = FragmentVideo.newInstance(toolbartitle);
+            /*toolbartitle = (String) getText(R.string.video);
+            fragment = FragmentVideo.newInstance(toolbartitle);*/
+            intent = new Intent(context, VideoDetail.class);
+            startActivity(intent);
         } else if (id == R.id.nav_music) {
-            toolbartitle = (String) getResources().getText(R.string.music);
-            fragment = FragmentMusic.newInstance(toolbartitle);
+           /* toolbartitle = (String) getResources().getText(R.string.music);
+            fragment = FragmentMusic.newInstance(toolbartitle);*/
+            intent = new Intent(context, AudioDetail.class);
+            startActivity(intent);
         } else if (id == R.id.nav_notice) {
             toolbartitle = (String) getText(R.string.notice);
             fragment = FragmentNotice.newInstance(toolbartitle);
