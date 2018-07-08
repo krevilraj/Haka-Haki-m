@@ -58,7 +58,7 @@ public class AudioActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!playPause) {
-                        btnplay.setImageResource(R.drawable.ic_pause);
+                    btnplay.setImageResource(R.drawable.ic_pause);
                     if (initialStage) {
                         new Player().execute("https://www.ssaurel.com/tmp/mymusic.mp3");
                     } else {
@@ -77,7 +77,7 @@ public class AudioActivity extends AppCompatActivity {
                 }
             }
         });
-     displayAudioDetail();
+        displayAudioDetail();
         fetchData();
     }
 
@@ -142,12 +142,12 @@ public class AudioActivity extends AppCompatActivity {
         noticeList.enqueue(new Callback<AudioModel>() {
             @Override
             public void onResponse(Call<AudioModel> call, Response<AudioModel> response) {
-                               post = (AudioModel) response.body();
+                post = (AudioModel) response.body();
                 if (post != null) {
                     displayAudioDetail();
 
                 } else {
-                   // showNoItemView(true);
+                    // showNoItemView(true);
                 }
             }
 
