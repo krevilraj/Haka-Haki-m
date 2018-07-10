@@ -84,7 +84,7 @@ public class ActivityProjectDetail extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_activity_post_details, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
 
         return true;
     }

@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mayurit.hakahaki.ActivityPostDetail;
+import com.mayurit.hakahaki.ActivityPostTypeDetail;
 import com.mayurit.hakahaki.ActivityPostTypeList;
 import com.mayurit.hakahaki.Adapters.CategoryNewsListAdapter;
 import com.mayurit.hakahaki.Helpers.Constant;
@@ -49,7 +50,7 @@ public class FragmentNEFEJ extends Fragment implements View.OnClickListener {
     private String toolbarTitle;
     Context context;
 
-    public static final String EXTRA_OBJC = "PostType";
+    public static final String EXTRA_OBJC = "key.EXTRA_OBJC";
 
     View view;
     LinearLayout lnr_project,lnr_board_member,lnr_employee,lnr_about;
@@ -109,8 +110,9 @@ public class FragmentNEFEJ extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.lnr_about:
-                intent = new Intent(context, ActivityPostTypeList.class);
-                intent.putExtra(EXTRA_OBJC, "page");
+                intent = new Intent(context, ActivityPostTypeDetail.class);
+                intent.putExtra("post_id",1430);
+                intent.putExtra("post_type","page");
                 startActivity(intent);
                 break;
             default:

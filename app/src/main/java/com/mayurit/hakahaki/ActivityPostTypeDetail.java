@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -17,7 +18,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,27 +33,33 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityNEEFEJDetail extends AppCompatActivity {
+public class ActivityPostTypeDetail extends AppCompatActivity {
 
     public static final String EXTRA_OBJC = "key.EXTRA_OBJC";
 
     int page_no;
     RelativeLayout rel_container;
-    String post_id;
+    String post_id,post_type;
     NewsListModel post;
 
     TextView txt_title,txt_date,txt_like_count;
     ImageView img_full;
     WebView web_description;
 
+    private ProgressBar spinner;
+    SwipeRefreshLayout swipe_refresh_layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
         Intent intent = getIntent();
-        post = (NewsListModel) getIntent().getSerializableExtra(EXTRA_OBJC);
+        refresh();
+        loading(true);
+        post_id= intent.getExtras().getString("post_id");
+        post_type= intent.getExtras().getString("post_type");
 
-        Log.i("postdatax1",post.getPostTitle());
+
         rel_container = (RelativeLayout) findViewById(R.id.rel_container);
 
         txt_title = (TextView) findViewById(R.id.txt_title);
@@ -58,7 +67,10 @@ public class ActivityNEEFEJDetail extends AppCompatActivity {
         txt_like_count = (TextView) findViewById(R.id.txt_like_count);
         img_full = (ImageView) findViewById(R.id.img_full);
         web_description = (WebView) findViewById(R.id.web_description);
-        displayApiResult(post);
+        if(!post_type.equals("page")) {
+            post = (NewsListModel) getIntent().getSerializableExtra(EXTRA_OBJC);
+            displayApiResult(post);
+        }
 
         netCheck();
     }
@@ -66,19 +78,14 @@ public class ActivityNEEFEJDetail extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int item_id = item.getItemId();
-        if (item_id == android.R.id.home) {
+        if (item_id == R.id.action_settings) {
             onBackPressed();
-        } else if (item_id == R.id.action_share) {
-            methodShare(ActivityNEEFEJDetail.this, post);
-        }  else if (item_id == R.id.action_browser) {
-//            directLinkToBrowser(this, post.url);
-            Toast.makeText(this, "link to browser", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_activity_post_details, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
 
         return true;
     }
@@ -110,8 +117,7 @@ public class ActivityNEEFEJDetail extends AppCompatActivity {
 
     public void fetchData() {
 
-//        Call<List<NewsListModel>> noticeList = RetrofitAPI.getService().getPostDetail("7300");
-        Call<NewsListModel> noticeList = RetrofitAPI.getService().getNEEFEJDetail("nefej",post.getID());
+        Call<NewsListModel> noticeList = RetrofitAPI.getService().getNEEFEJDetail(post_type,post_id);
         noticeList.enqueue(new Callback<NewsListModel>() {
             @Override
             public void onResponse(Call<NewsListModel> call, Response<NewsListModel> response) {
@@ -119,9 +125,11 @@ public class ActivityNEEFEJDetail extends AppCompatActivity {
                 NewsListModel resp = response.body();
                 if (resp != null) {
                     displayResult(resp);
+                    loading(false);
+                    swipe_refresh_layout.setRefreshing(false);
 
                 } else {
-                    showNoItemView(true);
+                    netCheck();
                 }
 
 
@@ -129,7 +137,7 @@ public class ActivityNEEFEJDetail extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<NewsListModel> call, Throwable throwable) {
-                Toast.makeText(ActivityNEEFEJDetail.this, "Failed to load", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityPostTypeDetail.this, "Failed to load", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -211,5 +219,32 @@ public class ActivityNEEFEJDetail extends AppCompatActivity {
         sharingIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
         //sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
         act.startActivity(Intent.createChooser(sharingIntent, "Share Using"));
+    }
+
+    public void   loading(boolean show){
+        spinner = (ProgressBar)findViewById(R.id.progressBar2);
+        // spinner.setVisibility(View.GONE);
+
+        if(show){
+            spinner.setVisibility(View.VISIBLE);
+        }else{
+            spinner.setVisibility(View.GONE);
+        }
+        //b1=(Button)findViewById(R.id.button);
+
+
+
+
+    }
+    public void refresh(){
+        swipe_refresh_layout = findViewById(R.id.swipe_refresh_layout);
+        swipe_refresh_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipe_refresh_layout.setRefreshing(true);
+                fetchData();
+            }
+        });
+
     }
 }

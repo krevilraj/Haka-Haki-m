@@ -36,7 +36,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ActivityPostTypeList extends AppCompatActivity {
-    public static final String EXTRA_OBJC = "PostType";
+    public static final String EXTRA_OBJC = "key.EXTRA_OBJC";
     String postType;
 
 
@@ -53,7 +53,7 @@ public class ActivityPostTypeList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_type_list);
+        setContentView(R.layout.activity_category_list);
         Intent intent = getIntent();
         postType = intent.getExtras().getString(EXTRA_OBJC);
         swipe_refresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout_category);
@@ -87,9 +87,10 @@ public class ActivityPostTypeList extends AppCompatActivity {
 
                         NewsListModel singleItem = list.get(position);
                         Toast.makeText(ActivityPostTypeList.this, "categ = " + singleItem.getID(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(ActivityPostTypeList.this, ActivityPostDetail.class);
-//                        intent.putExtra("post_id",singleItem.getID());
+                        Intent intent = new Intent(ActivityPostTypeList.this, ActivityPostTypeDetail.class);
                         intent.putExtra(EXTRA_OBJC, (Serializable) singleItem);
+                        intent.putExtra("post_id",singleItem.getID());
+                        intent.putExtra("post_type",postType);
                         startActivity(intent);
 
                     }

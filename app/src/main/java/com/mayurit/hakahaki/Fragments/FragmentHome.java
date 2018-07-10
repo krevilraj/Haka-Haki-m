@@ -27,6 +27,7 @@ import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
 
 import com.mayurit.hakahaki.ActivityPostDetail;
+import com.mayurit.hakahaki.ActivityPostTypeList;
 import com.mayurit.hakahaki.Adapters.CategoryAdapter;
 
 import com.mayurit.hakahaki.AudioDetail;
@@ -163,18 +164,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         return view;
 
     }
-/*    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate your main_menu into the menu
-        getMenuInflater().inflate(R.menu.activity_main_drawer, menu);
 
-        // Find the menuItem to add your SubMenu
-        MenuItem myMenuItem = menu.findItem(R.id.submenu_one);
-
-        // Inflating the sub_menu menu this way, will add its menu items
-        // to the empty SubMenu you created in the xml
-        getMenuInflater().inflate(R.menu., myMenuItem.getSubMenu());
-
-    }*/
 
     private void initFirstCategorySection() {
         // Inflate the layout for this fragment
@@ -554,6 +544,11 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                 break;
             case R.id.video:
                 intent = new Intent(context, VideoDetail.class);
+                startActivity(intent);
+                break;
+            case R.id.notice:
+                intent = new Intent(context, ActivityPostTypeList.class);
+                intent.putExtra(EXTRA_OBJC, "notice");
                 startActivity(intent);
                 break;
             case R.id.tajakhabar:
