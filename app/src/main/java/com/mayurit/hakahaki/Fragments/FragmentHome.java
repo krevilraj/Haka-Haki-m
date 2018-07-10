@@ -27,6 +27,7 @@ import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
 
 import com.mayurit.hakahaki.ActivityPostDetail;
+import com.mayurit.hakahaki.ActivityPostTypeList;
 import com.mayurit.hakahaki.Adapters.CategoryAdapter;
 
 import com.mayurit.hakahaki.AudioDetail;
@@ -34,6 +35,7 @@ import com.mayurit.hakahaki.CategoryDetail;
 import com.mayurit.hakahaki.Helpers.Constant;
 import com.mayurit.hakahaki.Helpers.DatabaseHelper;
 import com.mayurit.hakahaki.Helpers.RetrofitAPI;
+import com.mayurit.hakahaki.MainActivity;
 import com.mayurit.hakahaki.Model.NewsListModel;
 
 import com.mayurit.hakahaki.NEEFEJDetail;
@@ -92,11 +94,14 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     private LinearLayout lnrlayoutNews;
     DatabaseHelper databaseHelper;
     RelativeLayout rel_container;
+    Fragment fragment;
     View view;
 
     //changes now
     private RecyclerView recyclerView;
     CategoryAdapter mAdapter;
+
+    String toolbartitle="Home";
 
     public FragmentHome() {
         // Required empty public constructor
@@ -159,18 +164,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         return view;
 
     }
-/*    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate your main_menu into the menu
-        getMenuInflater().inflate(R.menu.activity_main_drawer, menu);
 
-        // Find the menuItem to add your SubMenu
-        MenuItem myMenuItem = menu.findItem(R.id.submenu_one);
-
-        // Inflating the sub_menu menu this way, will add its menu items
-        // to the empty SubMenu you created in the xml
-        getMenuInflater().inflate(R.menu., myMenuItem.getSubMenu());
-
-    }*/
 
     private void initFirstCategorySection() {
         // Inflate the layout for this fragment
@@ -538,8 +532,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         Intent intent;
         switch (view.getId()) {
             case R.id.nefej:
-                intent = new Intent(context, NEEFEJDetail.class);
-                startActivity(intent);
+                ((MainActivity) getActivity()).changeFragment(FragmentNEFEJ.newInstance());
                 break;
             case R.id.project:
                 intent = new Intent(context, ProjectDetail.class);
@@ -551,6 +544,11 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                 break;
             case R.id.video:
                 intent = new Intent(context, VideoDetail.class);
+                startActivity(intent);
+                break;
+            case R.id.notice:
+                intent = new Intent(context, ActivityPostTypeList.class);
+                intent.putExtra(EXTRA_OBJC, "notice");
                 startActivity(intent);
                 break;
             case R.id.tajakhabar:

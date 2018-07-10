@@ -84,7 +84,7 @@ public class ActivityProjectDetail extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_activity_post_details, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
 
         return true;
     }
@@ -164,8 +164,8 @@ public class ActivityProjectDetail extends AppCompatActivity {
             txt_like_count.setText("");
         }
 
-       /* String html_data = "<style>img{max-width:100%;height:auto; margin-bottom:10px;} iframe{width:100%;}</style> ";
-        html_data += posts.getPostContent();
+        String html_data = "<style>img{max-width:100%;height:auto; margin-bottom:10px;} iframe{width:100%;}</style> ";
+        html_data += posts.getPost_content();
         web_description.getSettings().setJavaScriptEnabled(true);
         web_description.getSettings();
         web_description.getSettings().setBuiltInZoomControls(true);
@@ -178,7 +178,6 @@ public class ActivityProjectDetail extends AppCompatActivity {
                 return (event.getAction() == MotionEvent.ACTION_MOVE);
             }
         });
-*/
         Glide.with(getApplicationContext()).load(posts.getImageId()).into(img_full);
     }
 

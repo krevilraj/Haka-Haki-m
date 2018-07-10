@@ -34,10 +34,9 @@
         <activity android:name=".ProjectDetail" />
         <activity android:name=".ActivityProjectDetail" />
         <activity android:name=".NEEFEJDetail" />
-        <activity android:name=".ActivityNEEFEJDetail" />
-        <activity android:name=".Model.Videoplay">
-
-        </activity>
+        <activity android:name=".ActivityPostTypeDetail" />
+        <activity android:name=".Model.Videoplay"></activity>
+        <activity android:name=".ActivityPostTypeList"></activity>
     </application>
 
 </manifest>

@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +15,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +25,6 @@ import com.mayurit.hakahaki.Adapters.CategoryNewsListAdapter;
 import com.mayurit.hakahaki.Helpers.Constant;
 import com.mayurit.hakahaki.Helpers.RecyclerItemClickListener;
 import com.mayurit.hakahaki.Helpers.RetrofitAPI;
-import com.mayurit.hakahaki.Model.CategoryModel;
 import com.mayurit.hakahaki.Model.NewsListModel;
 
 import java.io.Serializable;
@@ -35,9 +35,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CategoryDetail extends AppCompatActivity {
-
+public class ActivityPostTypeList extends AppCompatActivity {
     public static final String EXTRA_OBJC = "key.EXTRA_OBJC";
+    String postType;
+
 
     int page_no;
     int totalRowsCategeory = Constant.CATEGORY_LIMIT;
@@ -49,15 +50,13 @@ public class CategoryDetail extends AppCompatActivity {
 
     CategoryNewsListAdapter mAdapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_list);
-        swipe_refresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout_category);
         Intent intent = getIntent();
-        category_id= intent.getExtras().getInt("category_id");
-        Toast.makeText(this, "categ = "+category_id, Toast.LENGTH_SHORT).show();
+        postType = intent.getExtras().getString(EXTRA_OBJC);
+        swipe_refresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout_category);
         rel_container = (RelativeLayout) findViewById(R.id.rel_container);
         swipeProgress(true);
         swipe_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -70,6 +69,7 @@ public class CategoryDetail extends AppCompatActivity {
         });
         RecyclerWithListner();
     }
+
 
     private void RecyclerWithListner() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -86,10 +86,11 @@ public class CategoryDetail extends AppCompatActivity {
                     public void onItemClick(View view, int position) {
 
                         NewsListModel singleItem = list.get(position);
-                        Toast.makeText(CategoryDetail.this, "categ = "+singleItem.getID(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(CategoryDetail.this, ActivityPostDetail.class);
-//                        intent.putExtra("post_id",singleItem.getID());
+                        Toast.makeText(ActivityPostTypeList.this, "categ = " + singleItem.getID(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ActivityPostTypeList.this, ActivityPostTypeDetail.class);
                         intent.putExtra(EXTRA_OBJC, (Serializable) singleItem);
+                        intent.putExtra("post_id",singleItem.getID());
+                        intent.putExtra("post_type",postType);
                         startActivity(intent);
 
                     }
@@ -100,7 +101,7 @@ public class CategoryDetail extends AppCompatActivity {
                     }
                 })
         );
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 int topRowVerticalPosition =
@@ -174,16 +175,16 @@ public class CategoryDetail extends AppCompatActivity {
     }
 
     public void fetchData() {
-       Log.i("Bxx","categoryid="+category_id+"page="+page_no+"Con="+Constant.CATEGORY_LIMIT);
+        Log.i("Bxx", "categoryid=" + category_id + "page=" + page_no + "Con=" + Constant.CATEGORY_LIMIT);
 
-        Call<List<NewsListModel>> noticeList = RetrofitAPI.getService().getCategoryLimitNews(category_id,page_no*10, Constant.CATEGORY_LIMIT);
+        Call<List<NewsListModel>> noticeList = RetrofitAPI.getService().getNEEFEJList(postType, page_no * 10, Constant.CATEGORY_LIMIT);
         noticeList.enqueue(new Callback<List<NewsListModel>>() {
             @Override
             public void onResponse(Call<List<NewsListModel>> call, Response<List<NewsListModel>> response) {
                 swipeProgress(false);
                 Log.i("Bxx", "fetc = " + page_no);
-                for(NewsListModel data: response.body()){
-                    Log.i("postdata","v ="+data.getID());
+                for (NewsListModel data : response.body()) {
+                    Log.i("postdata", "v =" + data.getID());
                 }
                 displayApiResult(response.body());
                 mAdapter.notifyDataSetChanged();
@@ -192,7 +193,7 @@ public class CategoryDetail extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<NewsListModel>> call, Throwable throwable) {
-                Toast.makeText(CategoryDetail.this, "Failed to load", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityPostTypeList.this, "Failed to load", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -227,5 +228,4 @@ public class CategoryDetail extends AppCompatActivity {
             lyt_no_item.setVisibility(View.GONE);
         }
     }
-
 }
